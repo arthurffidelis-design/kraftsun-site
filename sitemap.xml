@@ -2,12 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://www.kraftsun.com.br/</loc>
-    <lastmod>2026-09-10</lastmod>
+    <lastmod>2026-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://www.kraftsun.com.br/og-image.png</image:loc>
-      <image:title>KraftSun: diagnóstico de usinas solares para integradores</image:title>
+      <image:title>KraftSun: diagnóstico técnico para o pós-venda solar</image:title>
     </image:image>
+  </url>
+  <url>
+    <loc>https://www.kraftsun.com.br/privacidade.html</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 </urlset>
