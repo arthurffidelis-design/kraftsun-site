@@ -1,4 +1,4 @@
-# KraftSun · Site v3 "Campo e mesa" (redesenho aprovado em 16/09/2026)
+# KraftSun · Site v3.1 "Campo e mesa" (16/09/2026) · v3.1 corrige proporção das imagens, foto de fundo no hero e efeitos
 
 ## O que é
 Site novo do www.kraftsun.com.br na direção C ("Campo e mesa"), com a copy e a estrutura do handoff da Ray, HTML/CSS/JS puro (sem bundle do Claude Design).

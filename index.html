@@ -50,7 +50,7 @@
 html{scroll-behavior:smooth}
 body{margin:0;font-family:'Source Sans 3',system-ui,sans-serif;color:var(--ink);background:#fff;line-height:1.55;-webkit-text-size-adjust:100%}
 a{color:inherit;text-decoration:none}
-img{max-width:100%;display:block}
+img{max-width:100%;height:auto;display:block}
 h1,h2,h3{font-family:'Lexend',sans-serif;margin:0;letter-spacing:-.02em;line-height:1.1}
 h1{font-weight:800;font-size:clamp(34px,4.3vw,56px);line-height:1.06;letter-spacing:-.03em}
 h2{font-weight:700;font-size:clamp(28px,3.3vw,42px)}
@@ -61,7 +61,7 @@ p{margin:0}
 .eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);margin-bottom:14px}
 .lead{font-size:17px;line-height:1.6;color:var(--muted)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:16px;padding:16px 28px;border-radius:999px;border:1.5px solid transparent;cursor:pointer;font-family:inherit;transition:transform .25s ease,filter .25s ease}
-.btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
+.btn:hover{transform:translateY(-2px) scale(1.03);filter:brightness(1.07)}
 .btn-orange{background:var(--orange);color:#fff;box-shadow:0 12px 28px rgba(255,122,26,.35)}
 .btn-ghost{color:#fff;border-color:rgba(255,255,255,.35)}
 .btn-line{color:var(--orange-dk);border-color:var(--peach-line)}
@@ -86,21 +86,25 @@ p{margin:0}
 .menu-btn{display:none;background:none;border:1.5px solid var(--line);border-radius:999px;font:700 14px 'Source Sans 3';padding:10px 14px;color:var(--ink)}
 
 /* hero */
-.hero{display:grid;grid-template-columns:1.05fr .95fr;min-height:720px}
-.hero-txt{background:var(--navy);color:#fff;padding:72px 56px 72px calc((100vw - 1180px)/2 + 48px);display:flex;flex-direction:column;justify-content:center;gap:26px}
+.hero{position:relative;overflow:hidden;color:#fff;background:linear-gradient(100deg,rgba(10,22,42,.97) 0%,rgba(10,22,42,.92) 46%,rgba(10,22,42,.55) 100%),url("assets/hero-bg.jpg") center/cover no-repeat;padding:88px 0 96px}
+.hero .glow{position:absolute;top:-160px;right:-120px;width:620px;height:620px;border-radius:50%;background:radial-gradient(circle,rgba(255,122,26,.32),transparent 70%);animation:floatGlow 9s ease-in-out infinite;pointer-events:none}
+.hero .glow.b{top:auto;bottom:-260px;left:-160px;width:520px;height:520px;background:radial-gradient(circle,rgba(255,160,77,.18),transparent 70%);animation-duration:12s}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.hero-txt{display:flex;flex-direction:column;gap:26px;animation:riseIn .9s ease both}
+@keyframes riseIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes floatGlow{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(50px,-30px) scale(1.18)}}
 .hero .tag{display:inline-flex;align-self:flex-start;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--orange-2);border:1px solid rgba(255,160,77,.5);padding:8px 14px;border-radius:999px}
 .hero h1 span{color:var(--orange-2)}
 .hero .lead{color:#b9c8dd;font-size:19px;max-width:520px}
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px}
 .hero .checks{display:flex;flex-wrap:wrap;gap:10px 24px;color:#b9c8dd}
-.hero-photo{position:relative;background:url("assets/hero-bg.jpg") center/cover;display:flex;align-items:flex-end;padding:150px 48px 0 48px}
-.hero-photo .laudo-card{margin-bottom:-2px;border-radius:14px 14px 0 0}
-.hero-photo::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,28,51,.05),rgba(13,28,51,.55))}
-.laudo-card{position:relative;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.45);width:100%;max-width:470px;margin-left:auto}
-.laudo-card .bar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line);font-size:13px}
-.laudo-card .bar b{display:flex;align-items:center;gap:8px}
-.laudo-card .bar b i{width:8px;height:8px;border-radius:50%;background:var(--green)}
-.laudo-card .bar span{color:var(--soft);font-size:12px}
+.hero-photo{position:relative;animation:riseIn .9s ease .15s both}
+.laudo-card{position:relative;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 28px 64px rgba(0,0,0,.45);transition:transform .4s ease}
+.laudo-card:hover{transform:translateY(-6px) rotate(-.5deg)}
+.hero-pill{position:absolute;bottom:-18px;left:-18px;background:var(--navy);border:1px solid #2c456e;color:#fff;border-radius:12px;padding:14px 18px;font-size:14px;font-weight:600;box-shadow:0 16px 36px rgba(0,0,0,.4);display:flex;align-items:center;gap:8px}
+.hero-pill i{width:9px;height:9px;border-radius:50%;background:#2ecc71;box-shadow:0 0 0 4px rgba(46,204,113,.25);animation:pulse 2s ease-in-out infinite}
+.hero-pill span{color:#8fa4c2;font-weight:400}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(46,204,113,.25)}50%{box-shadow:0 0 0 9px rgba(46,204,113,.05)}}
 
 /* faixa laranja */
 .band{background:var(--peach);border-bottom:1px solid var(--peach-line);padding:22px 0}
@@ -158,10 +162,12 @@ input[type=range]{width:100%;accent-color:var(--orange);height:28px}
 /* plataforma */
 .plat .head{text-align:center;max-width:720px;margin:0 auto 48px}
 .plat .head .lead{margin-top:14px;max-width:620px;margin-left:auto;margin-right:auto}
-.plat .shot{max-width:1080px;margin:0 auto 14px;border-radius:16px;overflow:hidden;box-shadow:0 32px 72px rgba(18,35,63,.18);border:1px solid var(--line)}
+.plat .shot{max-width:1080px;margin:0 auto 14px;border-radius:16px;overflow:hidden;box-shadow:0 32px 72px rgba(18,35,63,.18);border:1px solid var(--line);transition:transform .5s ease}
+.plat .shot:hover{transform:scale(1.015)}
 .plat .cap{font-size:13px;font-weight:600;color:var(--soft);text-align:center;margin-bottom:48px}
 .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.grid4 .card{padding:26px}
+.grid4 .card{padding:26px;border-top:3px solid transparent}
+.grid4 .card:hover{border-top-color:var(--orange)}
 .grid4 h3{color:var(--orange-dk);font-size:17px;margin-bottom:8px}
 .grid4 p{font-size:14.5px;color:var(--muted)}
 .more{margin-top:22px;background:var(--peach);border:1px solid var(--peach-line);border-radius:16px;padding:22px 28px;display:flex;align-items:center;gap:18px 28px;flex-wrap:wrap}
@@ -184,7 +190,8 @@ input[type=range]{width:100%;accent-color:var(--orange);height:28px}
 .price .head{text-align:center;margin-bottom:44px}
 .price .head .lead{max-width:680px;margin:12px auto 0;font-size:16px}
 .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:1120px;margin:0 auto 24px;align-items:stretch}
-.plan{background:#fff;border:1px solid var(--line);border-radius:20px;padding:36px 32px;display:flex;flex-direction:column;box-shadow:0 12px 32px rgba(18,35,63,.06);position:relative}
+.plan{background:#fff;border:1px solid var(--line);border-radius:20px;padding:36px 32px;display:flex;flex-direction:column;box-shadow:0 12px 32px rgba(18,35,63,.06);position:relative;transition:transform .3s ease,box-shadow .3s ease}
+.plan:hover{transform:translateY(-6px);box-shadow:0 26px 52px rgba(18,35,63,.14)}
 .plan.hot{background:linear-gradient(180deg,#fff,var(--peach));border:2px solid var(--orange);box-shadow:0 28px 64px rgba(255,122,26,.18)}
 .plan .best{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:700;letter-spacing:.08em;background:var(--orange);color:#fff;padding:6px 18px;border-radius:99px}
 .plan h3{font-size:20px;margin-bottom:14px}
@@ -216,7 +223,9 @@ input[type=range]{width:100%;accent-color:var(--orange);height:28px}
 .faq-item.open .a{display:block}
 
 /* cta */
-.cta{display:grid;grid-template-columns:.95fr 1.05fr;min-height:520px}
+.cta{display:grid;grid-template-columns:.95fr 1.05fr;min-height:520px;position:relative;overflow:hidden}
+.cta .glow{position:absolute;right:-140px;bottom:-200px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(255,122,26,.28),transparent 70%);animation:floatGlow 11s ease-in-out infinite;pointer-events:none;z-index:1}
+.cta .txt{position:relative;z-index:2}
 .cta .photo{background:url("assets/cta-bg.webp") center/cover;position:relative}
 .cta .photo::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,28,51,.1),rgba(13,28,51,.6))}
 .cta .txt{background:var(--navy);color:#fff;padding:80px 56px;display:flex;flex-direction:column;justify-content:center;gap:20px}
@@ -245,10 +254,9 @@ footer a:hover{color:#fff}
   .top .acts .btn{padding:10px 16px;font-size:14px;white-space:nowrap}
   html,body{overflow-x:hidden}
   .menu-btn{display:inline-block}
-  .hero{grid-template-columns:1fr;min-height:0}
-  .hero-txt{padding:48px 22px}
-  .hero-photo{min-height:380px;padding:90px 22px 0}
-  .laudo-card{max-width:none}
+  .hero{padding:52px 0 72px}
+  .hero .wrap{grid-template-columns:1fr;gap:40px}
+  .hero-pill{left:8px;bottom:-14px;font-size:13px}
   .band .wrap{flex-direction:column;align-items:stretch;gap:18px}
   .band .nums{justify-content:space-between;gap:12px}
   .band .nums b{font-size:24px}
@@ -287,6 +295,8 @@ footer a:hover{color:#fff}
 <main>
 <!-- 1 HERO -->
 <section class="hero">
+  <div class="glow"></div><div class="glow b"></div>
+  <div class="wrap">
   <div class="hero-txt">
     <span class="tag">Diagnóstico técnico para o pós-venda solar</span>
     <h1>Todo app de fabricante avisa que a usina caiu. Antes da visita, o KraftSun já diz <span>por quê e o que corrigir.</span></h1>
@@ -303,10 +313,9 @@ footer a:hover{color:#fff}
     </div>
   </div>
   <div class="hero-photo">
-    <div class="laudo-card">
-      <div class="bar"><b><i></i>Diagnóstico concluído em 4,2 s</b><span>tela real do produto</span></div>
-      <img src="assets/laudo-achados.png" alt="Laudo real do KraftSun com os achados por gravidade" width="1400" height="901" fetchpriority="high">
-    </div>
+    <div class="laudo-card"><img src="assets/laudo-achados.png" alt="Laudo real do KraftSun com os achados por gravidade" width="1400" height="901" fetchpriority="high"></div>
+    <div class="hero-pill"><i></i>Diagnóstico concluído <span>· 4,2 s · tela real do produto</span></div>
+  </div>
   </div>
 </section>
 
@@ -314,9 +323,9 @@ footer a:hover{color:#fff}
 <section class="band">
   <div class="wrap">
     <div class="nums">
-      <div><b>2.000+</b><span>diagnósticos</span></div>
-      <div><b>200+</b><span>integradores</span></div>
-      <div><b class="o">14</b><span>fabricantes</span></div>
+      <div><b><span data-count="2000">0</span>+</b><span>diagnósticos</span></div>
+      <div><b><span data-count="200">0</span>+</b><span>integradores</span></div>
+      <div><b class="o"><span data-count="14">0</span></b><span>fabricantes</span></div>
     </div>
     <div class="marquee" aria-label="Fabricantes suportados"><div class="track">
       <div class="set"><img src="assets/marca-goodwe.png" alt="GoodWe"><img src="assets/marca-growatt.png" alt="Growatt"><img src="assets/marca-sungrow.png" alt="Sungrow" style="height:40px"><img src="assets/marca-deye.webp" alt="Deye"><img src="assets/marca-saj.png" alt="SAJ"><img src="assets/marca-huawei.png" alt="Huawei"><img src="assets/marca-solplanet.webp" alt="Solplanet"><img src="assets/marca-solis.png" alt="Solis"><img src="assets/marca-renac.png" alt="RENAC"><img src="assets/marca-chint.png" alt="Chint"><img src="assets/marca-auxsol.webp" alt="AUXSOL"><img src="assets/marca-solarman.webp" alt="Solarman" style="height:24px"><img src="assets/marca-austa.png" alt="Austa" style="height:42px"><span class="txt">Canadian Solar</span></div>
@@ -487,6 +496,7 @@ footer a:hover{color:#fff}
 <!-- 10 CTA -->
 <section class="cta">
   <div class="photo"></div>
+  <div class="glow"></div>
   <div class="txt">
     <h2>Conecte a primeira usina e veja o laudo ainda hoje.</h2>
     <p class="lead">Crie a conta, conecte a conta do fabricante e rode o primeiro diagnóstico de cortesia antes de pagar. Depois é assinar, com 7 dias de garantia. O custo de seguir no achismo, você acabou de calcular aí em cima.</p>
@@ -510,8 +520,8 @@ footer a:hover{color:#fff}
 /* ===== CONFIGURE AQUI (canais de contato) =====
    Preencha e o site monta os links sozinho. Deixe "" para esconder. */
 var SUPORTE_EMAIL    = "suporte@kraftsun.com.br";   // e-mail real de suporte (precisa existir no Workspace)
-var SUPORTE_WHATSAPP = "5581984558268";                          // só dígitos com DDI, ex.: "5581999990000"
-var YOUTUBE_CANAL    = "https://www.youtube.com/@KraftSunApp";                          // ex.: "https://www.youtube.com/@kraftsun" (vazio = link do vídeo)
+var SUPORTE_WHATSAPP = "";                          // só dígitos com DDI, ex.: "5581999990000"
+var YOUTUBE_CANAL    = "";                          // ex.: "https://www.youtube.com/@kraftsun" (vazio = link do vídeo)
 
 (function(){
   var e=document.getElementById('lnk-email');
@@ -533,6 +543,15 @@ function calc(){
   document.getElementById('v-year').textContent=brl(m*12);
 }
 calc();
+(function(){
+  var els=document.querySelectorAll('[data-count]'); if(!els.length) return;
+  var done=false;
+  function run(){ if(done) return; done=true; var t0=performance.now(), dur=1600;
+    (function step(t){ var p=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-p,3);
+      els.forEach(function(el){ el.textContent=Math.round(+el.dataset.count*e).toLocaleString('pt-BR'); });
+      if(p<1) requestAnimationFrame(step); })(t0); }
+  if('IntersectionObserver' in window){ var io=new IntersectionObserver(function(en){ if(en[0].isIntersecting){ run(); io.disconnect(); } },{threshold:.3}); io.observe(els[0]); } else run();
+})();
 function toggleFaq(b){
   var it=b.parentNode, open=it.classList.contains('open');
   document.querySelectorAll('.faq-item.open').forEach(function(x){ x.classList.remove('open'); x.querySelector('.q i').textContent='+'; });
