@@ -224,12 +224,17 @@ input[type=range]{width:100%;accent-color:var(--orange);height:28px}
 /* whatsapp flutuante e convite do Kraft */
 .wa-float{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;flex-direction:column;align-items:flex-end;gap:14px;pointer-events:none}
 .wa-float>*{pointer-events:auto}
-.wa-btn{display:inline-flex;align-items:center;gap:10px;background:#15803d;color:#fff;font-weight:700;font-size:15px;padding:14px 22px 14px 16px;border-radius:999px;box-shadow:0 12px 28px rgba(18,35,63,.28);transition:transform .25s ease,filter .25s ease}
-.wa-btn:hover{transform:translateY(-2px) scale(1.03);filter:brightness(1.08)}
-.wa-btn svg{flex:none}
-.wa-btn .dot{position:absolute;top:2px;right:2px;width:12px;height:12px;border-radius:50%;background:var(--orange);border:2px solid #fff;display:none}
+.wa-btn{display:inline-flex;align-items:center;gap:12px;background:#25d366;color:var(--navy);padding:7px 26px 7px 7px;border-radius:999px;border:2px solid #fff;box-shadow:0 16px 40px rgba(13,28,51,.3);position:relative;transition:transform .25s ease,box-shadow .25s ease;animation:waUp .6s 1s ease both}
+.wa-btn:hover{transform:translateY(-3px);box-shadow:0 22px 48px rgba(18,35,63,.3)}
+.wa-ic{width:50px;height:50px;border-radius:50%;background:#fff;display:grid;place-items:center;position:relative;flex:none;isolation:isolate}
+.wa-ic::before{content:"";position:absolute;inset:0;border-radius:50%;background:#fff;z-index:-1;animation:waPulse 2.6s ease-out 2s infinite}
+.wa-txt{display:flex;flex-direction:column;line-height:1.2}
+.wa-txt b{font-family:'Lexend',sans-serif;font-weight:700;font-size:16px;letter-spacing:-.01em}
+.wa-txt small{font-size:13px;font-weight:600;color:var(--navy);opacity:.78;margin-top:3px}
+.wa-btn .dot{position:absolute;top:0;right:0;width:14px;height:14px;border-radius:50%;background:var(--orange);border:2px solid #fff;display:none}
 .wa-btn.ping .dot{display:block}
-.wa-btn{position:relative}
+@keyframes waUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes waPulse{0%{transform:scale(1);opacity:.55}70%,100%{transform:scale(1.6);opacity:0}}
 .wa-card{display:none;width:330px;max-width:calc(100vw - 40px);background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px 18px 16px;box-shadow:0 24px 56px rgba(18,35,63,.24);position:relative}
 .wa-card.show{display:block;animation:waIn .35s ease both}
 @keyframes waIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
@@ -239,11 +244,11 @@ input[type=range]{width:100%;accent-color:var(--orange);height:28px}
 .wa-who b{display:block;font-family:'Lexend',sans-serif;font-size:15px;color:var(--ink);line-height:1.2}
 .wa-who small{font-size:12.5px;color:var(--soft)}
 .wa-card p{font-size:15px;line-height:1.5;color:var(--body);margin-bottom:14px}
-.wa-go{width:100%;background:#15803d;color:#fff;padding:13px 18px;font-size:15px}
+.wa-go{width:100%;background:#25d366;color:var(--navy);padding:13px 18px;font-size:15px}
 .wa-x{position:absolute;top:8px;right:8px;width:32px;height:32px;border:0;background:none;font:400 22px/1 'Source Sans 3',sans-serif;color:var(--soft);cursor:pointer;border-radius:50%}
 .wa-x:hover{background:var(--paper);color:var(--ink)}
 .wa-btn:focus-visible,.wa-go:focus-visible,.wa-x:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
-@media (prefers-reduced-motion:reduce){.wa-card.show{animation:none}}
+@media (prefers-reduced-motion:reduce){.wa-card.show,.wa-btn,.wa-ic::before{animation:none}}
 
 /* faq */
 .faq{background:var(--paper)}
@@ -320,8 +325,10 @@ footer a:hover{color:#fff}
   .grid4{grid-template-columns:1fr}
   h1{font-size:34px}
   .wa-float{right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px))}
-  .wa-btn{padding:15px}
-  .wa-btn span{display:none}
+  .wa-btn{padding:6px 18px 6px 6px;gap:10px}
+  .wa-ic{width:44px;height:44px}
+  .wa-txt b{font-size:15px}
+  .wa-txt small{display:none}
 }
 </style>
 </head>
@@ -531,7 +538,7 @@ footer a:hover{color:#fff}
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Como funciona o diagnóstico?<i>+</i></button><p class="a">Você conecta a conta que já tem no portal do fabricante. O KraftSun lê string, fase, MPPT e alarmes do inversor, cruza com PRODIST/NBR e com o histórico da usina e entrega um laudo com causa provável, gravidade e a correção dentro da norma.</p></div>
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Quais fabricantes são suportados?<i>+</i></button><p class="a">GoodWe, Growatt, Deye, Solis, RENAC, Chint, SAJ, Huawei, Solplanet, Sungrow, AUXSOL, Solarman, Austa e Canadian Solar. Inclusive plataformas sem API oficial. Não achou a sua? Pede que a gente prioriza.</p></div>
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Preciso instalar algo na usina?<i>+</i></button><p class="a">Não. Tudo pela conta que você já tem no portal do fabricante. Sem datalogger, sem hardware.</p></div>
-      <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Como funciona o período de teste?<i>+</i></button><p class="a">Você cria a conta, conecta a usina e roda 1 diagnóstico de cortesia antes de pagar, com o laudo completo. Depois escolhe o plano e assina, com 7 dias de garantia: rodou, não gostou, devolvemos.</p></div>
+      <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Posso testar antes de me comprometer?<i>+</i></button><p class="a">Pode. Você assina, conecta as usinas e usa a plataforma inteira com 7 dias de garantia: não fez sentido, cancela e devolvemos o valor.</p></div>
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Minha carteira tem mais de 300 usinas. Tem plano para mim?<i>+</i></button><p class="a">Tem. Montamos um plano personalizado no tamanho da sua carteira, com valor fixo por mês e a plataforma inteira. Chame o time no WhatsApp pelo botão "Montar meu plano", na seção de planos.</p></div>
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Funciona junto com meu CRM?<i>+</i></button><p class="a">Sim. O KraftSun é o motor de diagnóstico e trabalha ao lado do CRM, da planilha ou do portal que você já usa. Você conecta a conta do fabricante e pronto.</p></div>
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">O KraftSun mexe no inversor sozinho?<i>+</i></button><p class="a">Não. O laudo orienta a correção dentro dos limites do PRODIST/NBR e a aplicação é sempre do técnico responsável. Funções de segurança nunca são desabilitadas.</p></div>
@@ -539,7 +546,7 @@ footer a:hover{color:#fff}
       <div class="grp second">Já sou cliente</div>
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Como adicionar ou remover técnicos da equipe?<i>+</i></button><p class="a">O titular da conta cadastra técnicos e colaboradores em Conta › Equipe, sem custo por usuário. Cada um entra com o próprio acesso e o titular escolhe o que cada um pode ver e fazer.</p></div>
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">O que acontece se um técnico sair da empresa?<i>+</i></button><p class="a">O titular remove o acesso na hora. Os laudos, as O.S. e o histórico que ele produziu continuam na conta da empresa.</p></div>
-      <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Como funciona a cobrança e a fatura?<i>+</i></button><p class="a">Mensalidade no cartão de crédito, com renovação automática, ou por Pix, com a fatura enviada todo mês. Se passar do plano (usina, diagnóstico ou conta de energia acima do limite), nada é bloqueado: o valor entra na mesma fatura do mês. A franquia de diagnósticos volta inteira a cada renovação.</p></div>
+      <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Como funciona a cobrança e a fatura?<i>+</i></button><p class="a">Mensalidade no cartão de crédito, com renovação automática, ou por Pix, com a fatura enviada todo mês. A franquia de diagnósticos volta inteira a cada renovação.</p></div>
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Como trocar de plano (upgrade ou downgrade)?<i>+</i></button><p class="a">Em Conta › Minha assinatura, a qualquer momento. O plano maior entra na hora, cobrando só a diferença proporcional; o plano menor vale a partir do próximo ciclo.</p></div>
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Como cancelar a assinatura?<i>+</i></button><p class="a">Em Conta › Minha assinatura, com um clique. Sem multa, sem ligação. Você mantém o acesso até o fim do ciclo já pago.</p></div>
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">A reverificação é cobrada?<i>+</i></button><p class="a">Não. Uma reverificação por diagnóstico está inclusa: você corrige, o KraftSun relê e comprova.</p></div>
@@ -553,8 +560,8 @@ footer a:hover{color:#fff}
   <div class="glow"></div>
   <div class="txt">
     <h2>Conecte a primeira usina e veja o laudo ainda hoje.</h2>
-    <p class="lead">Crie a conta, conecte a conta do fabricante e rode o primeiro diagnóstico de cortesia antes de pagar. Depois é assinar, com 7 dias de garantia. O custo de seguir no achismo, você acabou de calcular aí em cima.</p>
-    <div><a class="btn btn-orange" href="https://app.kraftsun.com.br/registro">Criar conta e rodar o laudo de cortesia</a></div>
+    <p class="lead">Crie a conta, escolha o plano e conecte a conta do fabricante. São 7 dias de garantia: não fez sentido, devolvemos. O custo de seguir no achismo, você acabou de calcular aí em cima.</p>
+    <div><a class="btn btn-orange" href="https://app.kraftsun.com.br/registro">Criar minha conta</a></div>
     <p class="small">Cancele quando quiser</p>
   </div>
 </section>
@@ -578,7 +585,7 @@ footer a:hover{color:#fff}
     <p id="wa-msg">Oi! Eu sou o Kraft, assistente do KraftSun. Quer ver como o diagnóstico funciona nas usinas da sua carteira? Te explico rapidinho no WhatsApp.</p>
     <a class="btn wa-go" id="wa-go" href="https://wa.me/5581984558268" rel="noopener">Conversar no WhatsApp</a>
   </div>
-  <a class="wa-btn" id="wa-btn" href="https://wa.me/5581984558268" rel="noopener" aria-label="Falar com o KraftSun no WhatsApp"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 20.5l1.6-5.4A8.4 8.4 0 1 1 21 11.5z"/><path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01" stroke-width="3"/></svg><span>WhatsApp</span><i class="dot"></i></a>
+  <a class="wa-btn" id="wa-btn" href="https://wa.me/5581984558268?text=Ol%C3%A1%2C%20vim%20pelo%20site%20do%20KraftSun." rel="noopener" aria-label="Falar com o KraftSun no WhatsApp"><span class="wa-ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#128c4b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 20.5l1.6-5.4A8.4 8.4 0 1 1 21 11.5z"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01" stroke-width="3"/></svg><i class="dot"></i></span><span class="wa-txt"><b>Falar no WhatsApp</b><small>Tire suas dúvidas agora</small></span></a>
 </div>
 
 <script>
@@ -623,17 +630,18 @@ calc();
   var box=document.getElementById('wa-float'); if(!box) return;
   if(!SUPORTE_WHATSAPP){ box.style.display='none'; return; }
   var card=document.getElementById('wa-card'), msg=document.getElementById('wa-msg'), go=document.getElementById('wa-go'), btn=document.getElementById('wa-btn');
+  /* Regra: a mensagem pronta só diz o que a pessoa escolheu clicar. O botão flutuante manda só que veio
+     pelo site; o convite manda o assunto do próprio convite que ela aceitou. Nada é deduzido do que ela olhou. */
+  function wa(t){ return 'https://wa.me/'+SUPORTE_WHATSAPP+'?text='+encodeURIComponent(t); }
   var CTX={
     padrao:{t:'Oi! Eu sou o Kraft, assistente do KraftSun. Quer ver como o diagnóstico funciona nas usinas da sua carteira? Te explico rapidinho no WhatsApp.',
-            w:function(){ return 'Olá, vim pelo site do KraftSun e quero entender como funciona na minha carteira.'; }},
+            w:'Olá, vim pelo site do KraftSun e quero entender como funciona na minha carteira.'},
     planos:{t:'Em dúvida sobre qual plano cabe na sua carteira? Me diz quantas usinas você acompanha que eu te ajudo a escolher.',
-            w:function(){ return 'Olá, vim pelo site do KraftSun e quero ajuda para escolher o plano.'; }},
-    calculadora:{t:'Fez a conta? Me chama no WhatsApp que eu te mostro como o KraftSun recupera essa margem na sua operação.',
-            w:function(){ var v=document.getElementById('v-month'); return 'Olá, fiz a conta na calculadora do site do KraftSun'+(v?' (deu '+v.textContent+' por mês)':'')+' e quero entender como recuperar essa margem.'; }}
+            w:'Olá, vim pelo site do KraftSun e quero ajuda para escolher o plano.'}
   };
   var atual='padrao';
-  function link(c){ return 'https://wa.me/'+SUPORTE_WHATSAPP+'?text='+encodeURIComponent(CTX[c].w()); }
-  function ajusta(c){ atual=c; msg.textContent=CTX[c].t; go.href=link(c); btn.href=link(c); }
+  btn.href=wa('Olá, vim pelo site do KraftSun.');
+  function ajusta(c){ atual=c; msg.textContent=CTX[c].t; go.href=wa(CTX[c].w); }
   ajusta('padrao');
   function lido(){ try{ return sessionStorage.getItem('ks_convite')==='1'; }catch(e){ return false; } }
   function marca(){ try{ sessionStorage.setItem('ks_convite','1'); }catch(e){} }
@@ -641,21 +649,15 @@ calc();
   function abre(c){ if(aberto||lido()) return; ajusta(c); aberto=true; card.classList.add('show'); btn.classList.add('ping'); marca(); }
   function fecha(){ card.classList.remove('show'); btn.classList.remove('ping'); }
   document.getElementById('wa-x').addEventListener('click',fecha);
-  function conta(origem){ if(window.gtag){ gtag('event','whatsapp_clique',{origem:origem,contexto:atual}); } marca(); }
+  function conta(origem){ if(window.gtag){ gtag('event','whatsapp_clique',{origem:origem,contexto:origem==='convite'?atual:'site'}); } marca(); }
   go.addEventListener('click',function(){ conta('convite'); fecha(); });
-  btn.addEventListener('click',function(){ btn.href=link(atual); conta('flutuante'); });
-  // gatilhos: 25 s no site, chegar nos planos, ou mexer na calculadora
+  btn.addEventListener('click',function(){ conta('flutuante'); fecha(); });
+  // convite: depois de 25 s no site ou de 5 s olhando os planos (uma vez por visita)
   setTimeout(function(){ abre('padrao'); },25000);
   var pl=document.getElementById('planos');
   if(pl && 'IntersectionObserver' in window){ var t=null;
     var io=new IntersectionObserver(function(en){ if(en[0].isIntersecting){ t=setTimeout(function(){ abre('planos'); },5000); } else if(t){ clearTimeout(t); t=null; } },{rootMargin:'-45% 0px -45% 0px'});
     io.observe(pl); }
-  var mexeu=false;
-  ['in-visits','in-cost','in-rework'].forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener('change',function(){ if(mexeu) return; mexeu=true; setTimeout(function(){ abre('calculadora'); },2500); }); });
-  // se o convite já abriu, o botão flutuante segue o assunto da seção
-  if('IntersectionObserver' in window){ var calc=document.getElementById('calculadora');
-    var io2=new IntersectionObserver(function(en){ en.forEach(function(e){ if(e.isIntersecting && !card.classList.contains('show')){ ajusta(e.target.id==='planos'?'planos':'calculadora'); } }); },{rootMargin:'-45% 0px -45% 0px'});
-    if(pl) io2.observe(pl); if(calc) io2.observe(calc); }
 })();
 function toggleFaq(b){
   var it=b.parentNode, open=it.classList.contains('open');
