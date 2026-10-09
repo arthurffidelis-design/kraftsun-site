@@ -12,7 +12,7 @@
   gtag('config', 'G-Y6H7T99HHY');
 </script>
 <title>KraftSun · Diagnóstico técnico para o pós-venda solar</title>
-<meta name="description" content="Todo app de fabricante avisa que a usina caiu. Antes da visita, o KraftSun já diz por quê e o que corrigir. Laudo com causa provável, gravidade e correção dentro da norma, com a sua marca. 14 fabricantes, sem hardware na usina. Planos a partir de R$ 149/mês.">
+<meta name="description" content="Todo app de fabricante avisa que a usina caiu. Antes da visita, o KraftSun já diz por quê e o que corrigir. Laudo com causa provável, gravidade e correção dentro da norma, com a sua marca. 14 fabricantes, sem hardware na usina. Planos a partir de R$ 189/mês.">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://www.kraftsun.com.br/">
 <meta name="theme-color" content="#0d1c33">
@@ -40,9 +40,9 @@
 {"@type":"Organization","@id":"https://www.kraftsun.com.br/#org","name":"KraftSun","url":"https://www.kraftsun.com.br/","logo":"https://www.kraftsun.com.br/favicon-512x512.png","sameAs":["https://www.instagram.com/kraftsun_app"]},
 {"@type":"WebSite","@id":"https://www.kraftsun.com.br/#site","url":"https://www.kraftsun.com.br/","name":"KraftSun","inLanguage":"pt-BR","publisher":{"@id":"https://www.kraftsun.com.br/#org"}},
 {"@type":"SoftwareApplication","name":"KraftSun","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://www.kraftsun.com.br/","inLanguage":"pt-BR","description":"Plataforma de diagnóstico técnico dedicada ao pós-venda do integrador solar. Conecte a conta do fabricante e receba um laudo com causa provável, gravidade e correção dentro da norma, com a sua marca. 14 fabricantes, sem hardware na usina.","offers":[
-{"@type":"Offer","name":"Técnico","price":"149","priceCurrency":"BRL","description":"20 diagnósticos por mês inclusos","url":"https://app.kraftsun.com.br/registro"},
-{"@type":"Offer","name":"Integrador","price":"349","priceCurrency":"BRL","description":"80 diagnósticos por mês inclusos","url":"https://app.kraftsun.com.br/registro"},
-{"@type":"Offer","name":"O&M","price":"749","priceCurrency":"BRL","description":"250 diagnósticos por mês inclusos","url":"https://app.kraftsun.com.br/registro"}]}]}
+{"@type":"Offer","name":"Técnico","price":"189","priceCurrency":"BRL","description":"50 usinas monitoradas e 8 diagnósticos por mês, com auditoria das contas de energia","url":"https://app.kraftsun.com.br/registro"},
+{"@type":"Offer","name":"Integrador","price":"449","priceCurrency":"BRL","description":"125 usinas monitoradas e 20 diagnósticos por mês, com auditoria das contas de energia","url":"https://app.kraftsun.com.br/registro"},
+{"@type":"Offer","name":"O&M","price":"989","priceCurrency":"BRL","description":"300 usinas monitoradas e 45 diagnósticos por mês, com auditoria das contas de energia","url":"https://app.kraftsun.com.br/registro"}]}]}
 </script>
 <style>
 :root{--navy:#0d1c33;--navy-2:#12233f;--navy-3:#1a2f52;--ink:#12233f;--body:#3f5878;--muted:#5a7191;--soft:#7d92ad;--line:#e6ecf4;--paper:#f4f7fb;--orange:#ff7a1a;--orange-2:#ffa04d;--orange-dk:#c05e10;--peach:#fff7ef;--peach-line:#ffd9b8;--peach-ink:#7a5230;--green:#1e8a5a;--red:#c0392b}
@@ -193,16 +193,31 @@ input[type=range]{width:100%;accent-color:var(--orange);height:28px}
 .plan{background:#fff;border:1px solid var(--line);border-radius:20px;padding:36px 32px;display:flex;flex-direction:column;box-shadow:0 12px 32px rgba(18,35,63,.06);position:relative;transition:transform .3s ease,box-shadow .3s ease}
 .plan:hover{transform:translateY(-6px);box-shadow:0 26px 52px rgba(18,35,63,.14)}
 .plan.hot{background:linear-gradient(180deg,#fff,var(--peach));border:2px solid var(--orange);box-shadow:0 28px 64px rgba(255,122,26,.18)}
-.plan .best{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:700;letter-spacing:.08em;background:var(--orange);color:#fff;padding:6px 18px;border-radius:99px}
+.plan .best{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:700;letter-spacing:.08em;background:var(--orange);color:#fff;padding:6px 18px;border-radius:99px;white-space:nowrap}
 .plan h3{font-size:20px;margin-bottom:14px}
 .plan .val{font-family:'Lexend',sans-serif;font-weight:800;font-size:44px;line-height:1;letter-spacing:-.02em}
 .plan .val small{font:600 16px 'Source Sans 3';color:var(--soft)}
 .plan .inc{font-size:14px;font-weight:700;color:var(--orange);margin:10px 0 14px}
 .plan .who{font-size:14px;color:var(--muted);margin-bottom:22px}
+@media (min-width:901px){.plans .plan .who{min-height:3.1em}}
 .plan ul{list-style:none;padding:0;margin:0 0 28px;display:grid;gap:10px;font-size:14.5px;color:var(--body)}
 .plan li{display:flex;gap:10px}
 .plan li::before{content:"✓";color:var(--orange);font-weight:700}
 .plan .btn{margin-top:auto;width:100%}
+.plan-custom{max-width:1120px;margin:0 auto 24px;display:grid;grid-template-columns:1fr 1.15fr auto;gap:40px;align-items:center;background:var(--navy);color:#fff;border-radius:20px;padding:36px 40px;box-shadow:0 20px 48px rgba(13,28,51,.2);position:relative;overflow:hidden;transition:transform .3s ease,box-shadow .3s ease}
+.plan-custom:hover{transform:translateY(-6px);box-shadow:0 30px 60px rgba(13,28,51,.28)}
+.plan-custom::after{content:"";position:absolute;right:-120px;top:-160px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(255,122,26,.22),transparent 70%);pointer-events:none}
+.plan-custom>*{position:relative;z-index:1;min-width:0}
+.plan-custom h3{font-size:20px;margin-bottom:14px;color:#fff}
+.plan-custom .val{font-family:'Lexend',sans-serif;font-weight:800;font-size:40px;line-height:1;letter-spacing:-.02em}
+.plan-custom .inc{font-size:14px;font-weight:700;color:var(--orange-2);margin:10px 0 12px}
+.plan-custom .who{font-size:14px;color:#b9c8dd}
+.plan-custom ul{list-style:none;padding:0;margin:0;display:grid;gap:10px;font-size:14.5px;color:#dbe3f0}
+.plan-custom li{display:flex;gap:10px}
+.plan-custom li::before{content:"✓";color:var(--orange-2);font-weight:700}
+.plan-custom .go{display:flex;flex-direction:column;gap:10px;width:250px}
+.plan-custom .go .btn{width:100%}
+.plan-custom .go small{font-size:13px;color:#8fa4c2;text-align:center}
 .extras{max-width:1120px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px 28px;text-align:center;font-size:14px;line-height:1.75;color:var(--muted)}
 .extras b{color:var(--ink)}
 
@@ -242,6 +257,9 @@ footer a:hover{color:#fff}
 
 @media (max-width:1000px){
   .grid4{grid-template-columns:1fr 1fr}
+  .plan-custom{grid-template-columns:1fr 1fr;gap:28px}
+  .plan-custom .go{grid-column:1/-1;width:auto;flex-direction:row;align-items:center;gap:18px}
+  .plan-custom .go .btn{width:auto;padding-left:40px;padding-right:40px}
 }
 @media (max-width:900px){
   .wrap{padding:0 22px}
@@ -269,6 +287,9 @@ footer a:hover{color:#fff}
   .shots .main{width:100%}
   .shots .over{display:none}
   .plans{grid-template-columns:1fr}
+  .plan-custom{grid-template-columns:1fr;gap:24px;padding:36px 32px}
+  .plan-custom .go{flex-direction:column;align-items:stretch;gap:10px}
+  .plan-custom .go .btn{width:100%}
   .cta{grid-template-columns:1fr}
   .cta .photo{min-height:260px}
   .cta .txt{padding:48px 22px}
@@ -443,21 +464,26 @@ footer a:hover{color:#fff}
   <div class="wrap reveal">
     <div class="head">
       <div class="eyebrow">Planos</div>
-      <h2>Três planos, preço na cara. Escolha pelo tamanho da carteira.</h2>
-      <p class="lead">Toda mensalidade inclui a plataforma inteira e uma franquia de diagnósticos por mês. Passou da franquia, compra crédito extra e segue. Sem cobrança por usina, sem cobrança por usuário, sem tabela para decifrar.</p>
+      <h2>Preço na cara. Escolha pelo tamanho da carteira.</h2>
+      <p class="lead">Todo plano tem a plataforma inteira: monitoramento, diagnóstico com reverificação, auditoria das contas de energia, Portal do Cliente, O.S., manutenção e financeiro. Só muda a quantidade. Sem cobrança por usuário.</p>
     </div>
     <div class="plans">
-      <div class="plan"><h3>Técnico</h3><div class="val">R$ 149<small>/mês</small></div><div class="inc">20 diagnósticos por mês inclusos</div><p class="who">Para o técnico autônomo e a integradora que está começando no pós-venda.</p>
-        <ul><li>14 fabricantes</li><li>Laudo com causa, gravidade e correção</li><li>Reverificação inclusa</li><li>Monitoramento 24h de até 20 usinas</li><li>Ordens de serviço e portal do cliente</li><li>Laudo em PDF com a sua marca</li></ul>
+      <div class="plan"><h3>Técnico</h3><div class="val">R$ 189<small>/mês</small></div><div class="inc">50 usinas · 8 diagnósticos/mês</div><p class="who">Para quem está começando a cuidar da carteira.</p>
+        <ul><li>Monitoramento 24h com alertas no WhatsApp</li><li>Diagnóstico com reverificação inclusa</li><li>Auditoria das contas de energia em todas as usinas, até 5 contas cada</li><li>Portal do Cliente, O.S., manutenção e financeiro</li><li>Laudo e portal com a sua marca</li></ul>
         <a class="btn btn-line" href="https://app.kraftsun.com.br/registro">Assinar Técnico</a></div>
-      <div class="plan hot"><span class="best">MAIS ESCOLHIDO</span><h3>Integrador</h3><div class="val">R$ 349<small>/mês</small></div><div class="inc">80 diagnósticos por mês inclusos</div><p class="who">Para integradoras com carteira ativa e equipe de pós-venda.</p>
-        <ul><li><b>Tudo do Técnico</b></li><li>Monitoramento 24h de até 80 usinas</li><li>Relatórios gerenciais da carteira</li><li>Central de pendências</li><li>Multi-conta por cliente e financeiro do integrador</li><li>Manutenção preventiva e contratos</li></ul>
+      <div class="plan hot"><span class="best">MAIS ESCOLHIDO</span><h3>Integrador</h3><div class="val">R$ 449<small>/mês</small></div><div class="inc">125 usinas · 20 diagnósticos/mês</div><p class="who">Para a integradora com carteira em crescimento.</p>
+        <ul><li>Monitoramento 24h com alertas no WhatsApp</li><li>Diagnóstico com reverificação inclusa</li><li>Auditoria das contas de energia em todas as usinas, até 5 contas cada</li><li>Portal do Cliente, O.S., manutenção e financeiro</li><li>Laudo e portal com a sua marca</li></ul>
         <a class="btn btn-orange" href="https://app.kraftsun.com.br/registro">Assinar Integrador</a></div>
-      <div class="plan"><h3>O&amp;M</h3><div class="val">R$ 749<small>/mês</small></div><div class="inc">250 diagnósticos por mês inclusos</div><p class="who">Para gestoras de portfólio e usinas de investimento que precisam de resposta todo dia.</p>
-        <ul><li><b>Tudo do Integrador</b></li><li>Monitoramento 24h de até 250 usinas</li><li>Volume para operar dezenas de usinas</li><li>Prioridade no suporte</li></ul>
+      <div class="plan"><h3>O&amp;M</h3><div class="val">R$ 989<small>/mês</small></div><div class="inc">300 usinas · 45 diagnósticos/mês</div><p class="who">Para quem vende manutenção e monitoramento.</p>
+        <ul><li>Monitoramento 24h com alertas no WhatsApp</li><li>Diagnóstico com reverificação inclusa</li><li>Auditoria das contas de energia em todas as usinas, até 5 contas cada</li><li>Portal do Cliente, O.S., manutenção e financeiro</li><li>Laudo e portal com a sua marca</li></ul>
         <a class="btn btn-line" href="https://app.kraftsun.com.br/registro">Assinar O&amp;M</a></div>
     </div>
-    <div class="extras"><b>Excedente:</b> pacotes de 10 diagnósticos por R$ 50, 30 por R$ 135 ou 50 por R$ 199. Os créditos extras não expiram. · 1 diagnóstico de cortesia no cadastro, antes de pagar · Cartão ou Pix · Garantia de 7 dias: não fez sentido, cancelamos e devolvemos. · Cancele quando quiser, sem multa.</div>
+    <div class="plan-custom" id="personalizado">
+      <div><h3>Personalizado</h3><div class="val">Sob medida</div><div class="inc">Carteira acima de 300 usinas ou operação diferente</div><p class="who">Para redes, franquias e gestoras de usinas de investimento. O consultor monta o plano no tamanho da sua carteira, com valor fixo por mês.</p></div>
+      <ul><li>Usinas e diagnósticos na medida da sua operação</li><li>A plataforma inteira, igual aos outros planos</li><li>Valor fixo por mês, sem surpresa na fatura</li><li>Atendimento direto com um consultor</li></ul>
+      <div class="go"><a id="lnk-personalizado" class="btn btn-orange" href="https://wa.me/5581984558268?text=Ol%C3%A1%2C%20vim%20pelo%20site%20do%20KraftSun%20e%20quero%20um%20plano%20personalizado%20para%20a%20minha%20carteira." rel="noopener">Montar meu plano</a><small>Conversa pelo WhatsApp com o time</small></div>
+    </div>
+    <div class="extras"><b>Passar do plano não bloqueia nada.</b> O que passar entra na mesma fatura do mês.<br>Usina acima do plano R$&nbsp;1,90 · Diagnóstico extra R$&nbsp;5,00 · Conta de energia acima de 5 por usina R$&nbsp;1,90<br>1 diagnóstico de cortesia no cadastro, antes de pagar · Cartão ou Pix · Garantia de 7 dias: não fez sentido, cancelamos e devolvemos. · Cancele quando quiser, sem multa.</div>
   </div>
 </section>
 
@@ -479,14 +505,15 @@ footer a:hover{color:#fff}
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Quais fabricantes são suportados?<i>+</i></button><p class="a">GoodWe, Growatt, Deye, Solis, RENAC, Chint, SAJ, Huawei, Solplanet, Sungrow, AUXSOL, Solarman, Austa e Canadian Solar. Inclusive plataformas sem API oficial. Não achou a sua? Pede que a gente prioriza.</p></div>
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Preciso instalar algo na usina?<i>+</i></button><p class="a">Não. Tudo pela conta que você já tem no portal do fabricante. Sem datalogger, sem hardware.</p></div>
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Como funciona o período de teste?<i>+</i></button><p class="a">Você cria a conta, conecta a usina e roda 1 diagnóstico de cortesia antes de pagar, com o laudo completo. Depois escolhe o plano e assina, com 7 dias de garantia: rodou, não gostou, devolvemos.</p></div>
+      <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Minha carteira tem mais de 300 usinas. Tem plano para mim?<i>+</i></button><p class="a">Tem. Montamos um plano personalizado no tamanho da sua carteira, com valor fixo por mês e a plataforma inteira. Chame o time no WhatsApp pelo botão "Montar meu plano", na seção de planos.</p></div>
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Funciona junto com meu CRM?<i>+</i></button><p class="a">Sim. O KraftSun é o motor de diagnóstico e trabalha ao lado do CRM, da planilha ou do portal que você já usa. Você conecta a conta do fabricante e pronto.</p></div>
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">O KraftSun mexe no inversor sozinho?<i>+</i></button><p class="a">Não. O laudo orienta a correção dentro dos limites do PRODIST/NBR e a aplicação é sempre do técnico responsável. Funções de segurança nunca são desabilitadas.</p></div>
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Minhas credenciais e dados ficam seguros?<i>+</i></button><p class="a">As credenciais ficam num cofre cifrado, isoladas por integrador. Seu histórico técnico não vira lead nem estatística para terceiros.</p></div>
       <div class="grp second">Já sou cliente</div>
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Como adicionar ou remover técnicos da equipe?<i>+</i></button><p class="a">O titular da conta cadastra técnicos e colaboradores em Conta › Equipe, sem custo por usuário. Cada um entra com o próprio acesso e o titular escolhe o que cada um pode ver e fazer.</p></div>
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">O que acontece se um técnico sair da empresa?<i>+</i></button><p class="a">O titular remove o acesso na hora. Os laudos, as O.S. e o histórico que ele produziu continuam na conta da empresa.</p></div>
-      <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Como funciona a cobrança e a fatura?<i>+</i></button><p class="a">Mensalidade no cartão de crédito, com renovação automática, ou por Pix, com a fatura enviada todo mês. Créditos extras por Pix ou cartão, quando você quiser. A franquia volta inteira a cada renovação; os créditos extras não expiram.</p></div>
-      <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Como trocar de plano (upgrade ou downgrade)?<i>+</i></button><p class="a">Em Conta › Minha assinatura, a qualquer momento. O upgrade libera a franquia nova na hora; o downgrade vale a partir da próxima renovação.</p></div>
+      <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Como funciona a cobrança e a fatura?<i>+</i></button><p class="a">Mensalidade no cartão de crédito, com renovação automática, ou por Pix, com a fatura enviada todo mês. Se passar do plano (usina, diagnóstico ou conta de energia acima do limite), nada é bloqueado: o valor entra na mesma fatura do mês. A franquia de diagnósticos volta inteira a cada renovação.</p></div>
+      <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Como trocar de plano (upgrade ou downgrade)?<i>+</i></button><p class="a">Em Conta › Minha assinatura, a qualquer momento. O plano maior entra na hora, cobrando só a diferença proporcional; o plano menor vale a partir do próximo ciclo.</p></div>
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">Como cancelar a assinatura?<i>+</i></button><p class="a">Em Conta › Minha assinatura, com um clique. Sem multa, sem ligação. Você mantém o acesso até o fim do ciclo já pago.</p></div>
       <div class="faq-item"><button class="q" onclick="toggleFaq(this)">A reverificação é cobrada?<i>+</i></button><p class="a">Não. Uma reverificação por diagnóstico está inclusa: você corrige, o KraftSun relê e comprova.</p></div>
     </div>
@@ -528,6 +555,8 @@ var YOUTUBE_CANAL    = "https://www.youtube.com/@KraftSunApp";                  
   if(SUPORTE_EMAIL){ e.href='mailto:'+SUPORTE_EMAIL; } else { e.style.display='none'; }
   var w=document.getElementById('lnk-whats');
   if(SUPORTE_WHATSAPP){ w.style.display='inline-flex'; w.rel='noopener'; w.href='https://wa.me/'+SUPORTE_WHATSAPP+'?text='+encodeURIComponent('Olá, vim pelo site do KraftSun e tenho uma dúvida.'); }
+  var pz=document.getElementById('lnk-personalizado');
+  if(pz && SUPORTE_WHATSAPP){ pz.href='https://wa.me/'+SUPORTE_WHATSAPP+'?text='+encodeURIComponent('Olá, vim pelo site do KraftSun e quero um plano personalizado para a minha carteira.'); }
   document.getElementById('foot-contact').innerHTML = SUPORTE_EMAIL ? 'Contato: <a href="mailto:'+SUPORTE_EMAIL+'" style="color:#dbe3f0">'+SUPORTE_EMAIL+'</a> · ' : '';
   if(YOUTUBE_CANAL){ document.getElementById('lnk-youtube').href=YOUTUBE_CANAL; }
   document.querySelectorAll('#nav a').forEach(function(a){ a.addEventListener('click',function(){ document.getElementById('nav').classList.remove('open'); }); });
