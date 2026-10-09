@@ -221,6 +221,30 @@ input[type=range]{width:100%;accent-color:var(--orange);height:28px}
 .extras{max-width:1120px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px 28px;text-align:center;font-size:14px;line-height:1.75;color:var(--muted)}
 .extras b{color:var(--ink)}
 
+/* whatsapp flutuante e convite do Kraft */
+.wa-float{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;flex-direction:column;align-items:flex-end;gap:14px;pointer-events:none}
+.wa-float>*{pointer-events:auto}
+.wa-btn{display:inline-flex;align-items:center;gap:10px;background:#15803d;color:#fff;font-weight:700;font-size:15px;padding:14px 22px 14px 16px;border-radius:999px;box-shadow:0 12px 28px rgba(18,35,63,.28);transition:transform .25s ease,filter .25s ease}
+.wa-btn:hover{transform:translateY(-2px) scale(1.03);filter:brightness(1.08)}
+.wa-btn svg{flex:none}
+.wa-btn .dot{position:absolute;top:2px;right:2px;width:12px;height:12px;border-radius:50%;background:var(--orange);border:2px solid #fff;display:none}
+.wa-btn.ping .dot{display:block}
+.wa-btn{position:relative}
+.wa-card{display:none;width:330px;max-width:calc(100vw - 40px);background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px 18px 16px;box-shadow:0 24px 56px rgba(18,35,63,.24);position:relative}
+.wa-card.show{display:block;animation:waIn .35s ease both}
+@keyframes waIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.wa-card::after{content:"";position:absolute;right:30px;bottom:-8px;width:16px;height:16px;background:#fff;border-right:1px solid var(--line);border-bottom:1px solid var(--line);transform:rotate(45deg)}
+.wa-who{display:flex;gap:10px;align-items:center;margin-bottom:10px;padding-right:28px}
+.wa-who img{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:#fff;flex:none}
+.wa-who b{display:block;font-family:'Lexend',sans-serif;font-size:15px;color:var(--ink);line-height:1.2}
+.wa-who small{font-size:12.5px;color:var(--soft)}
+.wa-card p{font-size:15px;line-height:1.5;color:var(--body);margin-bottom:14px}
+.wa-go{width:100%;background:#15803d;color:#fff;padding:13px 18px;font-size:15px}
+.wa-x{position:absolute;top:8px;right:8px;width:32px;height:32px;border:0;background:none;font:400 22px/1 'Source Sans 3',sans-serif;color:var(--soft);cursor:pointer;border-radius:50%}
+.wa-x:hover{background:var(--paper);color:var(--ink)}
+.wa-btn:focus-visible,.wa-go:focus-visible,.wa-x:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.wa-card.show{animation:none}}
+
 /* faq */
 .faq{background:var(--paper)}
 .faq .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px}
@@ -295,6 +319,9 @@ footer a:hover{color:#fff}
   .cta .txt{padding:48px 22px}
   .grid4{grid-template-columns:1fr}
   h1{font-size:34px}
+  .wa-float{right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+  .wa-btn{padding:15px}
+  .wa-btn span{display:none}
 }
 </style>
 </head>
@@ -483,7 +510,7 @@ footer a:hover{color:#fff}
       <ul><li>Usinas e diagnósticos na medida da sua operação</li><li>A plataforma inteira, igual aos outros planos</li><li>Valor fixo por mês, sem surpresa na fatura</li><li>Atendimento direto com um consultor</li></ul>
       <div class="go"><a id="lnk-personalizado" class="btn btn-orange" href="https://wa.me/5581984558268?text=Ol%C3%A1%2C%20vim%20pelo%20site%20do%20KraftSun%20e%20quero%20um%20plano%20personalizado%20para%20a%20minha%20carteira." rel="noopener">Montar meu plano</a><small>Conversa pelo WhatsApp com o time</small></div>
     </div>
-    <div class="extras"><b>Passar do plano não bloqueia nada.</b> O que passar entra na mesma fatura do mês.<br>Usina acima do plano R$&nbsp;1,90 · Diagnóstico extra R$&nbsp;5,00 · Conta de energia acima de 5 por usina R$&nbsp;1,90<br>1 diagnóstico de cortesia no cadastro, antes de pagar · Cartão ou Pix · Garantia de 7 dias: não fez sentido, cancelamos e devolvemos. · Cancele quando quiser, sem multa.</div>
+    <div class="extras">Garantia de 7 dias: não fez sentido, cancelamos e devolvemos. · Cancele quando quiser, sem multa.</div>
   </div>
 </section>
 
@@ -543,6 +570,17 @@ footer a:hover{color:#fff}
   </div>
 </footer>
 
+<!-- WhatsApp flutuante + convite do Kraft (o texto muda conforme a parte do site que a pessoa está vendo) -->
+<div class="wa-float" id="wa-float">
+  <div class="wa-card" id="wa-card" role="dialog" aria-labelledby="wa-card-t" aria-live="polite">
+    <button type="button" class="wa-x" id="wa-x" aria-label="Fechar convite">×</button>
+    <div class="wa-who"><img src="favicon-192x192.png" alt="" width="40" height="40"><div><b id="wa-card-t">Kraft</b><small>assistente do KraftSun no WhatsApp</small></div></div>
+    <p id="wa-msg">Oi! Eu sou o Kraft, assistente do KraftSun. Quer ver como o diagnóstico funciona nas usinas da sua carteira? Te explico rapidinho no WhatsApp.</p>
+    <a class="btn wa-go" id="wa-go" href="https://wa.me/5581984558268" rel="noopener">Conversar no WhatsApp</a>
+  </div>
+  <a class="wa-btn" id="wa-btn" href="https://wa.me/5581984558268" rel="noopener" aria-label="Falar com o KraftSun no WhatsApp"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 20.5l1.6-5.4A8.4 8.4 0 1 1 21 11.5z"/><path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01" stroke-width="3"/></svg><span>WhatsApp</span><i class="dot"></i></a>
+</div>
+
 <script>
 /* ===== CONFIGURE AQUI (canais de contato) =====
    Preencha e o site monta os links sozinho. Deixe "" para esconder. */
@@ -580,6 +618,44 @@ calc();
       els.forEach(function(el){ el.textContent=Math.round(+el.dataset.count*e).toLocaleString('pt-BR'); });
       if(p<1) requestAnimationFrame(step); })(t0); }
   if('IntersectionObserver' in window){ var io=new IntersectionObserver(function(en){ if(en[0].isIntersecting){ run(); io.disconnect(); } },{threshold:.3}); io.observe(els[0]); } else run();
+})();
+(function(){
+  var box=document.getElementById('wa-float'); if(!box) return;
+  if(!SUPORTE_WHATSAPP){ box.style.display='none'; return; }
+  var card=document.getElementById('wa-card'), msg=document.getElementById('wa-msg'), go=document.getElementById('wa-go'), btn=document.getElementById('wa-btn');
+  var CTX={
+    padrao:{t:'Oi! Eu sou o Kraft, assistente do KraftSun. Quer ver como o diagnóstico funciona nas usinas da sua carteira? Te explico rapidinho no WhatsApp.',
+            w:function(){ return 'Olá, vim pelo site do KraftSun e quero entender como funciona na minha carteira.'; }},
+    planos:{t:'Em dúvida sobre qual plano cabe na sua carteira? Me diz quantas usinas você acompanha que eu te ajudo a escolher.',
+            w:function(){ return 'Olá, vim pelo site do KraftSun e quero ajuda para escolher o plano.'; }},
+    calculadora:{t:'Fez a conta? Me chama no WhatsApp que eu te mostro como o KraftSun recupera essa margem na sua operação.',
+            w:function(){ var v=document.getElementById('v-month'); return 'Olá, fiz a conta na calculadora do site do KraftSun'+(v?' (deu '+v.textContent+' por mês)':'')+' e quero entender como recuperar essa margem.'; }}
+  };
+  var atual='padrao';
+  function link(c){ return 'https://wa.me/'+SUPORTE_WHATSAPP+'?text='+encodeURIComponent(CTX[c].w()); }
+  function ajusta(c){ atual=c; msg.textContent=CTX[c].t; go.href=link(c); btn.href=link(c); }
+  ajusta('padrao');
+  function lido(){ try{ return sessionStorage.getItem('ks_convite')==='1'; }catch(e){ return false; } }
+  function marca(){ try{ sessionStorage.setItem('ks_convite','1'); }catch(e){} }
+  var aberto=false;
+  function abre(c){ if(aberto||lido()) return; ajusta(c); aberto=true; card.classList.add('show'); btn.classList.add('ping'); marca(); }
+  function fecha(){ card.classList.remove('show'); btn.classList.remove('ping'); }
+  document.getElementById('wa-x').addEventListener('click',fecha);
+  function conta(origem){ if(window.gtag){ gtag('event','whatsapp_clique',{origem:origem,contexto:atual}); } marca(); }
+  go.addEventListener('click',function(){ conta('convite'); fecha(); });
+  btn.addEventListener('click',function(){ btn.href=link(atual); conta('flutuante'); });
+  // gatilhos: 25 s no site, chegar nos planos, ou mexer na calculadora
+  setTimeout(function(){ abre('padrao'); },25000);
+  var pl=document.getElementById('planos');
+  if(pl && 'IntersectionObserver' in window){ var t=null;
+    var io=new IntersectionObserver(function(en){ if(en[0].isIntersecting){ t=setTimeout(function(){ abre('planos'); },5000); } else if(t){ clearTimeout(t); t=null; } },{rootMargin:'-45% 0px -45% 0px'});
+    io.observe(pl); }
+  var mexeu=false;
+  ['in-visits','in-cost','in-rework'].forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener('change',function(){ if(mexeu) return; mexeu=true; setTimeout(function(){ abre('calculadora'); },2500); }); });
+  // se o convite já abriu, o botão flutuante segue o assunto da seção
+  if('IntersectionObserver' in window){ var calc=document.getElementById('calculadora');
+    var io2=new IntersectionObserver(function(en){ en.forEach(function(e){ if(e.isIntersecting && !card.classList.contains('show')){ ajusta(e.target.id==='planos'?'planos':'calculadora'); } }); },{rootMargin:'-45% 0px -45% 0px'});
+    if(pl) io2.observe(pl); if(calc) io2.observe(calc); }
 })();
 function toggleFaq(b){
   var it=b.parentNode, open=it.classList.contains('open');
