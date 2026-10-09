@@ -250,6 +250,17 @@ input[type=range]{width:100%;accent-color:var(--orange);height:28px}
 .wa-btn:focus-visible,.wa-go:focus-visible,.wa-x:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
 @media (prefers-reduced-motion:reduce){.wa-card.show,.wa-btn,.wa-ic::before{animation:none}}
 
+/* aviso de cookies (o Pixel da Meta só carrega depois do aceite) */
+.ck{position:fixed;left:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:70;width:440px;max-width:calc(100vw - 40px);background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;box-shadow:0 20px 48px rgba(18,35,63,.22);display:none;flex-direction:column;gap:14px}
+.ck.show{display:flex;animation:waIn .35s ease both}
+.ck p{font-size:14.5px;line-height:1.5;color:var(--body)}
+.ck p b{color:var(--ink)}
+.ck a{color:var(--orange-dk);font-weight:700;text-decoration:underline}
+.ck-acts{display:flex;gap:10px;flex-wrap:wrap}
+.ck .btn{padding:11px 22px;font-size:15px}
+.ck .btn:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.ck.show{animation:none}}
+
 /* faq */
 .faq{background:var(--paper)}
 .faq .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px}
@@ -329,6 +340,8 @@ footer a:hover{color:#fff}
   .wa-ic{width:44px;height:44px}
   .wa-txt b{font-size:15px}
   .wa-txt small{display:none}
+  .ck{left:12px;right:12px;width:auto;max-width:none;bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+  body.ck-on .wa-float{bottom:calc(var(--ck-h,170px) + 24px + env(safe-area-inset-bottom,0px))}
 }
 </style>
 </head>
@@ -571,11 +584,17 @@ footer a:hover{color:#fff}
   <div class="wrap">
     <div class="row"><img src="assets/logo-kraftsun-branca.png" alt="KraftSun" width="140" height="42" style="height:38px;width:auto"><div class="sig">PRECISO · SEGURO · COMPROVADO</div></div>
     <div class="row">
-      <nav><a href="#plataforma">Plataforma</a><a href="#planos">Planos</a><a href="#faq">Dúvidas</a><a href="#suporte">Suporte</a><a href="https://app.kraftsun.com.br/v2/ativacao">Guia de uso</a><a id="lnk-youtube" href="https://youtu.be/CH15wrnm6UM" rel="noopener">YouTube</a><a href="https://www.instagram.com/kraftsun_app" rel="noopener">Instagram</a><a href="/privacidade.html">Privacidade</a></nav>
+      <nav><a href="#plataforma">Plataforma</a><a href="#planos">Planos</a><a href="#faq">Dúvidas</a><a href="#suporte">Suporte</a><a href="https://app.kraftsun.com.br/v2/ativacao">Guia de uso</a><a id="lnk-youtube" href="https://youtu.be/CH15wrnm6UM" rel="noopener">YouTube</a><a href="https://www.instagram.com/kraftsun_app" rel="noopener">Instagram</a><a href="/privacidade.html">Privacidade</a><a href="#" id="lnk-cookies">Cookies</a></nav>
       <div><span id="foot-contact"></span>© 2026 KraftSun</div>
     </div>
   </div>
 </footer>
+
+<!-- Aviso de cookies: o Pixel da Meta só carrega se a pessoa aceitar (LGPD) -->
+<div class="ck" id="ck" role="region" aria-label="Aviso de cookies">
+  <p><b>Cookies.</b> Usamos cookies para medir as visitas e para mostrar anúncios do KraftSun no Facebook e no Instagram a quem já conhece o site. Você escolhe. <a href="/privacidade.html#cookies">Saiba mais</a></p>
+  <div class="ck-acts"><button type="button" class="btn btn-orange" id="ck-sim">Aceitar</button><button type="button" class="btn btn-line" id="ck-nao">Agora não</button></div>
+</div>
 
 <!-- WhatsApp flutuante + convite do Kraft (o texto muda conforme a parte do site que a pessoa está vendo) -->
 <div class="wa-float" id="wa-float">
@@ -658,6 +677,42 @@ calc();
   if(pl && 'IntersectionObserver' in window){ var t=null;
     var io=new IntersectionObserver(function(en){ if(en[0].isIntersecting){ t=setTimeout(function(){ abre('planos'); },5000); } else if(t){ clearTimeout(t); t=null; } },{rootMargin:'-45% 0px -45% 0px'});
     io.observe(pl); }
+})();
+/* ===== Pixel da Meta (conjunto de dados "KraftSun Site") =====
+   Só carrega depois que a pessoa aceita o aviso de cookies. A escolha fica no navegador dela
+   e pode ser revista pelo link "Cookies" do rodapé. */
+var META_PIXEL_ID = "2206521800205223";
+function carregaPixel(){
+  if(window.fbq || !META_PIXEL_ID) return;
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', META_PIXEL_ID);
+  fbq('track', 'PageView');
+}
+(function(){
+  var ck=document.getElementById('ck'); if(!ck) return;
+  var KEY='ks_cookies';
+  function le(){ try{ return localStorage.getItem(KEY); }catch(e){ return null; } }
+  function grava(v){ try{ localStorage.setItem(KEY,v); }catch(e){} }
+  function mostra(){ ck.classList.add('show'); document.body.classList.add('ck-on'); document.documentElement.style.setProperty('--ck-h', ck.offsetHeight+'px'); }
+  function esconde(){ ck.classList.remove('show'); document.body.classList.remove('ck-on'); }
+  var v=le();
+  if(v==='sim'){ carregaPixel(); } else if(v!=='nao'){ mostra(); }
+  document.getElementById('ck-sim').addEventListener('click',function(){ grava('sim'); esconde(); carregaPixel(); });
+  document.getElementById('ck-nao').addEventListener('click',function(){ grava('nao'); esconde(); });
+  var l=document.getElementById('lnk-cookies'); if(l) l.addEventListener('click',function(e){ e.preventDefault(); mostra(); });
+  // eventos do pixel (só existem se a pessoa aceitou): clique em qualquer WhatsApp = Contact; clique em criar conta = evento próprio
+  document.addEventListener('click',function(e){
+    if(!window.fbq) return;
+    var a=e.target.closest ? e.target.closest('a') : null; if(!a) return;
+    var h=a.getAttribute('href')||'';
+    if(h.indexOf('wa.me/')>-1){ fbq('track','Contact',{content_name:a.id||'whatsapp'}); }
+    else if(h.indexOf('app.kraftsun.com.br/registro')>-1){ fbq('trackCustom','CliqueCriarConta'); }
+  },true);
 })();
 function toggleFaq(b){
   var it=b.parentNode, open=it.classList.contains('open');
