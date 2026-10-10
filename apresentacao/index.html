@@ -235,7 +235,33 @@ input[type=range].rg{width:100%;accent-color:var(--orange);height:36px}
 .res .row{display:flex;justify-content:space-between;align-items:baseline;gap:20px;font:500 25px/1.3 var(--text);color:var(--on-2)}
 .res .row b{font:700 34px/1 var(--display);color:var(--on);font-variant-numeric:tabular-nums}
 
-/* 6 laudo ao vivo */
+/* 6 conta no KraftSun */
+.cad{display:grid;grid-template-columns:minmax(0,1fr) 520px;gap:44px;flex:1;align-items:start}
+.steps.dk5{grid-template-columns:repeat(5,1fr);gap:14px}
+.dk .st{background:var(--navy-2);border-color:var(--line-d);color:var(--on);min-height:330px;padding:28px 22px 24px}
+.dk .st:hover{border-color:var(--on-3)}
+.dk .st h4{font-size:26px}
+.dk .st p{color:var(--on-2);font-size:20px}
+.dk .st .n{background:var(--navy-3);border-color:var(--line-d);color:var(--on-2)}
+.dk .st .stt{color:var(--on-3)}
+.dk .st.on{border-color:var(--green-hi);background:linear-gradient(180deg,var(--navy-2),rgba(56,196,131,.16))}
+.dk .st.on .n{background:var(--green);border-color:var(--green);color:#fff}
+.dk .st.on .stt{color:var(--green-hi)}
+.dk .st.nx{border-color:var(--orange)}
+.dk .st.nx .n{border-color:var(--orange);color:var(--orange)}
+.dk .st.nx .stt{color:var(--orange)}
+.bar.dk{background:var(--line-d)}
+.bar.dk i{background:var(--green-hi)}
+.url{font:600 25px/1.2 var(--mono);color:var(--orange);white-space:nowrap}
+.kv{display:flex;flex-direction:column;gap:6px;font:500 25px/1.3 var(--text);color:var(--on)}
+.note{font:400 21px/1.4 var(--text);color:var(--on-3)}
+.okl{display:flex;flex-direction:column;gap:12px}
+.okl li{display:flex;gap:14px;align-items:center;font:500 25px/1.3 var(--text);color:var(--on-3)}
+.okl li i{width:30px;height:30px;border-radius:50%;border:2px solid var(--line-d);display:grid;place-items:center;font-style:normal;font-size:18px;flex:none}
+.okl li.on{color:var(--on)}
+.okl li.on i{background:var(--green);border-color:var(--green);color:#fff}
+.steps.tres{grid-template-columns:repeat(3,1fr)}
+/* 7 laudo ao vivo */
 .live{display:grid;grid-template-columns:minmax(0,1fr) 520px;gap:48px;flex:1;align-items:start}
 .t4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;position:relative}
 .t4 .c{background:var(--navy-2);border:1px solid var(--line-d);border-radius:20px;padding:30px 26px;display:flex;flex-direction:column;gap:14px;position:relative}
@@ -441,12 +467,12 @@ input[type=range].rg{width:100%;accent-color:var(--orange);height:36px}
   <div class="hub-in">
     <div class="hub-top">
       <span class="logo w" role="img" aria-label="KraftSun"></span>
-      <span class="ver">Demo KraftSun · v4 · planos de outubro de 2026</span>
+      <span class="ver">Demo KraftSun · v4.1 · planos de outubro de 2026</span>
     </div>
     <div class="hub-hero">
       <span class="k">Demo individual · 30 minutos</span>
-      <h1>A demo que termina com a conta ativa e a primeira usina conectada.</h1>
-      <p>Preencha a ficha antes da call. Durante a demo, tudo o que o lead contar entra nas telas: a carteira, o que já aconteceu, o custo de hoje, o laudo, a conta e o plano. No fim, ele escolhe, paga e sai usando.</p>
+      <h1>A demo em que o lead cria a conta, vê o laudo da usina dele e sai assinante.</h1>
+      <p>Preencha a ficha antes da call. Depois de alguns minutos de conversa, ele cria a conta no KraftSun, conecta o portal do fabricante e o laudo roda numa usina dele. A conta e o plano saem dos números que ele contou. No fim, ele escolhe o plano, paga e a usina segue acompanhada.</p>
     </div>
     <div class="hub-grid">
       <section class="panel" aria-labelledby="h-ficha">
@@ -456,8 +482,11 @@ input[type=range].rg{width:100%;accent-color:var(--orange);height:36px}
           <div class="f"><label for="f-contato">Nome do contato</label><input id="f-contato" data-k="contato" autocomplete="off" placeholder="Ex.: Rafael"></div>
           <div class="f"><label for="f-cidade">Cidade</label><input id="f-cidade" data-k="cidade" autocomplete="off" placeholder="Ex.: Caruaru/PE"></div>
           <div class="f"><label for="f-closer">Seu nome</label><input id="f-closer" data-k="closer" autocomplete="off" placeholder="Ex.: Marina"></div>
+          <div class="f"><label for="f-email">E-mail do lead (o do CRM)</label><input id="f-email" data-k="email" type="email" autocomplete="off" placeholder="Ex.: rafael@soldoagreste.com.br"></div>
+          <div class="f"><label for="f-whats">WhatsApp do lead (o do CRM)</label><input id="f-whats" data-k="whats" autocomplete="off" inputmode="tel" placeholder="Ex.: (81) 99999-0000"><span class="hint">A conta no KraftSun é criada com estes dois. Assim ela cai no negócio dele no CRM.</span></div>
           <div class="f"><label for="f-usinas">Usinas que ele acompanha</label><input id="f-usinas" data-k="usinas" type="number" min="0" inputmode="numeric"><span class="hint">Define o plano que aparece como recomendado.</span></div>
           <div class="f"><label for="f-usina">Usina para o laudo ao vivo</label><input id="f-usina" data-k="usinaNome" autocomplete="off" placeholder="A que está dando trabalho"></div>
+          <div class="f"><label for="f-marca">Marca dessa usina</label><input id="f-marca" data-k="marca" autocomplete="off" placeholder="Ex.: Growatt"></div>
           <div class="f"><label for="f-propplano">Proposta anterior</label>
             <select id="f-propplano" data-k="propPlano"><option value="">Não recebeu proposta</option><option value="Técnico">Técnico</option><option value="Integrador">Integrador</option><option value="O&amp;M">O&amp;M</option><option value="Sob medida">Sob medida</option></select></div>
           <div class="f"><label for="f-proppreco">Valor da proposta (R$ por mês)</label><input id="f-proppreco" data-k="propPreco" type="number" min="0" inputmode="decimal"><span class="hint">Quem já recebeu proposta mantém a condição dela.</span></div>
@@ -474,9 +503,9 @@ input[type=range].rg{width:100%;accent-color:var(--orange);height:36px}
           <h2 id="h-vesp">Na véspera<small>Metade da venda acontece antes da call.</small></h2>
           <ul class="chk" id="vespera">
             <li data-vx="0"><span class="bx">✓</span><span><b>Li o resumo da IA</b> e a qualificação na ficha do CRM.</span></li>
-            <li data-vx="1"><span class="bx">✓</span><span><b>Pedi a usina que dá mais trabalho</b> e o login de visualização do portal.</span></li>
+            <li data-vx="1"><span class="bx">✓</span><span><b>Pedi para ele ter à mão</b> o login do portal do fabricante (de preferência o de visualização) e o CPF ou CNPJ: a conta é criada na call.</span></li>
             <li data-vx="2"><span class="bx">✓</span><span><b>Convidei quem decide e quem paga</b> para entrar na call.</span></li>
-            <li data-vx="3"><span class="bx">✓</span><span><b>KraftSun aberto e logado</b>, câmera, áudio e internet testados.</span></li>
+            <li data-vx="3"><span class="bx">✓</span><span><b>Conferi no CRM o e-mail e o WhatsApp dele</b> e testei câmera, áudio e internet.</span></li>
             <li data-vx="4"><span class="bx">✓</span><span><b>Convite do Google aceito</b>. Se não, mandei o link no WhatsApp pelo card da demo.</span></li>
           </ul>
         </section>
@@ -491,7 +520,7 @@ input[type=range].rg{width:100%;accent-color:var(--orange);height:36px}
         </section>
       </div>
     </div>
-    <p class="hub-foot">A ficha fica só neste navegador e se apaga sozinha em 12 horas. Planos conferidos com o site em 10/10/2026: <b>Técnico R$ 189</b>, <b>Integrador R$ 449</b>, <b>O&amp;M R$ 989</b>.</p>
+    <p class="hub-foot">A ficha fica só neste navegador e se apaga sozinha em 12 horas. Planos conferidos com o site e o CRM em 10/10/2026: <b>Técnico R$ 189</b>, <b>Integrador R$ 449</b>, <b>O&amp;M R$ 989</b>.</p>
   </div>
 </div>
 
@@ -522,9 +551,9 @@ input[type=range].rg{width:100%;accent-color:var(--orange);height:36px}
         <h2 class="tt">Como vamos usar os próximos <em>30 minutos</em></h2>
       </div>
       <div class="plan3">
-        <div class="pstep"><span class="n">1</span><h3>Você me conta</h3><p>Como vocês cuidam das usinas hoje e o que mais dá trabalho no pós-venda.</p><span class="tm">uns 7 minutos</span></div>
-        <div class="pstep"><span class="n">2</span><h3>O KraftSun numa usina sua</h3><p>O laudo rodando de verdade, numa usina da sua carteira, e a conta com os seus números.</p><span class="tm">uns 12 minutos</span></div>
-        <div class="pstep"><span class="n">3</span><h3>Se fizer sentido, você já sai usando</h3><p>Plano escolhido, conta ativa e a primeira usina conectada antes de desligar.</p><span class="tm">o resto do tempo</span></div>
+        <div class="pstep"><span class="n">1</span><h3>Você me conta</h3><p>Como vocês cuidam das usinas hoje e o que mais dá trabalho no pós-venda.</p><span class="tm">uns 6 minutos</span></div>
+        <div class="pstep"><span class="n">2</span><h3>A sua conta e um laudo de verdade</h3><p>Criamos a conta de vocês no KraftSun, conectamos uma usina sua e o laudo roda nela.</p><span class="tm">uns 10 minutos</span></div>
+        <div class="pstep"><span class="n">3</span><h3>Se fizer sentido, você já sai usando</h3><p>A conta com os seus números, o plano do tamanho da carteira e a assinatura ativa antes de desligar.</p><span class="tm">o resto do tempo</span></div>
       </div>
       <div class="deal">
         <button class="btn-deal" type="button" data-act="combinado"><svg class="i"><use href="#i-check"/></svg><span data-t="combinadoTxt"></span></button>
@@ -635,10 +664,35 @@ input[type=range].rg{width:100%;accent-color:var(--orange);height:36px}
       </div>
     </section>
 
-    <!-- 6 LAUDO AO VIVO -->
+    <!-- 6 A CONTA NO KRAFTSUN -->
     <section class="sl dk" data-b="2">
       <div class="hd">
-        <span class="ey">Agora, numa usina de vocês</span>
+        <span class="ey">Agora, a conta de vocês</span>
+        <h2 class="tt">Vamos criar a conta da <em data-t="empresa"></em> e trazer uma usina sua</h2>
+      </div>
+      <div class="cad">
+        <div class="blk" style="gap:22px">
+          <div class="steps dk5" id="cad"></div>
+          <div class="bar dk" aria-hidden="true"><i id="bar-cad"></i></div>
+        </div>
+        <div class="usina">
+          <span class="lab">Endereço do cadastro</span>
+          <div class="url">app.kraftsun.com.br/registro</div>
+          <span class="lab">Com o e-mail e o WhatsApp</span>
+          <div class="kv"><span data-t="emailTxt"></span><span data-t="whatsTxt"></span></div>
+          <span class="lab">Usina</span>
+          <input class="txt" id="in-usina" data-k="usinaNome" placeholder="A que mais dá trabalho">
+          <span class="lab">Marca do inversor</span>
+          <input class="txt" id="in-marca" data-k="marca" placeholder="Ex.: Growatt">
+          <p class="note">Sem pagamento para criar a conta. O primeiro laudo é cortesia do KraftSun.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 LAUDO AO VIVO -->
+    <section class="sl dk" data-b="3">
+      <div class="hd">
+        <span class="ey">O laudo, na conta de vocês</span>
         <h2 class="tt">O laudo da <em data-t="usinaNome"></em>, rodando agora</h2>
       </div>
       <div class="live">
@@ -653,18 +707,16 @@ input[type=range].rg{width:100%;accent-color:var(--orange);height:36px}
           <div class="pulse"><i></i><span>O laudo leva alguns minutos. Enquanto ele roda: essa usina já deu trabalho antes?</span></div>
         </div>
         <div class="usina">
-          <span class="lab">Usina</span>
-          <input class="txt" id="in-usina" data-k="usinaNome" placeholder="Nome da usina">
-          <span class="lab">Marca do inversor</span>
-          <input class="txt" id="in-marca" data-k="marca" placeholder="Ex.: Growatt">
-          <span class="lab">Cliente final</span>
+          <span class="lab">Conta da <span data-t="empresa"></span></span>
+          <ul class="okl" id="okl"></ul>
+          <span class="lab">Cliente final dessa usina</span>
           <input class="txt" id="in-cli" data-k="clienteFinal" placeholder="Opcional">
         </div>
       </div>
     </section>
 
-    <!-- 7 O QUE O LAUDO MOSTROU -->
-    <section class="sl lt" data-b="2">
+    <!-- 8 O QUE O LAUDO MOSTROU -->
+    <section class="sl lt" data-b="3">
       <div class="hd">
         <span class="ey">O que o laudo mostrou</span>
         <h2 class="tt" data-h="lrTt"></h2>
@@ -690,8 +742,8 @@ input[type=range].rg{width:100%;accent-color:var(--orange);height:36px}
       </div>
     </section>
 
-    <!-- 8 A CONTA -->
-    <section class="sl dk" data-b="3">
+    <!-- 9 A CONTA -->
+    <section class="sl dk" data-b="4">
       <div class="hd">
         <span class="ey">A conta</span>
         <h2 class="tt">O KraftSun se paga com o <em><span style="white-space:nowrap">pós-venda</span> que vocês já fazem</em></h2>
@@ -758,33 +810,33 @@ input[type=range].rg{width:100%;accent-color:var(--orange);height:36px}
     <!-- 11 COMEÇAR HOJE -->
     <section class="sl lt" data-b="5">
       <div class="hd">
-        <span class="ey">Começar hoje</span>
-        <h2 class="tt"><em data-t="planoEsc"></em> para a <span data-t="empresa"></span>, ativo antes de desligar</h2>
+        <span class="ey">Ativar a assinatura</span>
+        <h2 class="tt"><em data-t="planoEsc"></em> ativo na conta da <span data-t="empresa"></span> antes de desligar</h2>
       </div>
       <div class="sum">
         <span>Plano <b data-t="planoEscNome"></b></span>
         <span data-t="cicloTxt"></span>
         <span><b data-t="planoEscValor"></b></span>
-        <span data-if="temMarca">1ª usina: <b data-t="marcaTxt"></b></span>
+        <span data-if="temUsinaConta">Já na conta: <b data-t="usinaContaTxt"></b></span>
       </div>
-      <div class="steps" id="steps"></div>
+      <div class="steps tres" id="steps"></div>
       <div class="bar" aria-hidden="true"><i id="bar"></i></div>
-      <div class="welcome" data-if="ativo"><svg class="i" style="font-size:44px"><use href="#i-check"/></svg><span>Conta ativa. Bem-vindo ao KraftSun<span data-t="virgContato"></span>.<small>A partir de agora, as usinas da <span data-t="empresa"></span> estão sendo acompanhadas.</small></span></div>
+      <div class="welcome" data-if="ativo"><svg class="i" style="font-size:44px"><use href="#i-check"/></svg><span>Assinatura ativa. Bem-vindo ao KraftSun<span data-t="virgContato"></span>.<small>A <span data-t="usinaNome"></span> já está sendo acompanhada. As outras usinas entram na ativação.</small></span></div>
       <div class="trust" data-if="naoAtivo">
         <span><svg class="i"><use href="#i-shield"/></svg>7 dias de garantia: não fez sentido, cancelamos e devolvemos</span>
         <span><svg class="i"><use href="#i-check"/></svg>Mensal sem fidelidade</span>
-        <span><svg class="i"><use href="#i-check"/></svg>A conexão é pela conta do portal do fabricante, sem nada para instalar na usina</span>
+        <span><svg class="i"><use href="#i-check"/></svg>A conta e a usina que vocês conectaram continuam como estão</span>
       </div>
     </section>
 
-    <!-- 12 PRÓXIMOS PASSOS -->
+    <!-- 13 PRÓXIMOS PASSOS -->
     <section class="sl dk" data-b="5">
       <div class="hd">
         <span class="ey" data-t="ultimoEy"></span>
         <h2 class="tt" data-h="ultimoTt"></h2>
       </div>
       <div class="d30" data-if="fechou">
-        <div class="c"><span class="d">Dia 1</span><h3>Ativação da carteira</h3><p>20 minutos com a tela aberta: conectar as outras marcas, colocar a sua marca no laudo e rodar os primeiros laudos.</p><input class="txt" id="in-dia1" data-k="dia1" placeholder="Dia e hora"></div>
+        <div class="c"><span class="d">Dia 1</span><h3>Ativação da carteira</h3><p>20 minutos com a tela aberta: as outras marcas, as usinas que faltam e a sua marca no laudo.</p><input class="txt" id="in-dia1" data-k="dia1" placeholder="Dia e hora"></div>
         <div class="c"><span class="d">Dia 7</span><h3>O que já usou</h3><p>O que funcionou, o que travou e quem é o primeiro cliente que entra no Portal do Cliente.</p></div>
         <div class="c"><span class="d">Dia 30</span><h3>Revisão e receita</h3><p>Uso, plano e a receita que vocês já podem cobrar dos clientes pelo acompanhamento.</p></div>
       </div>
@@ -841,6 +893,8 @@ input[type=range].rg{width:100%;accent-color:var(--orange);height:36px}
         <div class="f"><label for="c-contato">Contato</label><input id="c-contato" data-k="contato" autocomplete="off"></div>
         <div class="f"><label for="c-cidade">Cidade</label><input id="c-cidade" data-k="cidade" autocomplete="off"></div>
         <div class="f"><label for="c-closer">Seu nome</label><input id="c-closer" data-k="closer" autocomplete="off"></div>
+        <div class="f"><label for="c-email">E-mail do lead</label><input id="c-email" data-k="email" type="email" autocomplete="off"></div>
+        <div class="f"><label for="c-whats">WhatsApp do lead</label><input id="c-whats" data-k="whats" autocomplete="off"></div>
         <div class="f"><label for="c-propplano">Proposta anterior</label><select id="c-propplano" data-k="propPlano"><option value="">Não recebeu proposta</option><option value="Técnico">Técnico</option><option value="Integrador">Integrador</option><option value="O&amp;M">O&amp;M</option><option value="Sob medida">Sob medida</option></select></div>
         <div class="f"><label for="c-proppreco">Valor da proposta (R$/mês)</label><input id="c-proppreco" data-k="propPreco" type="number" min="0"></div>
       </div>
@@ -893,28 +947,35 @@ var DORES=[
   {id:"c7",ic:"i-coin",t:"O pós-venda é feito de favor, sem nenhum cliente pagando por mês."},
   {id:"c8",ic:"i-user",t:"Depois da obra, o cliente só lembra de vocês quando dá problema."}
 ];
-var BLOCOS=[["Abrir",0,3],["Descobrir",3,10],["Laudo",10,17],["A conta",17,21],["O plano",21,24],["Fechar e ativar",24,30]];
+var BLOCOS=[["Abrir",0,3],["Descobrir",3,9],["Conectar",9,15],["Laudo",15,19],["Conta e plano",19,25],["Fechar",25,30]];
+var CAD=[
+  {h:"Criar a conta",p:"Nome, e-mail, WhatsApp e CPF ou CNPJ. Sem pagamento agora."},
+  {h:"Conectar o portal do fabricante",p:"{marca}: o mesmo login do app do inversor, de preferência o de visualização."},
+  {h:"Trazer a usina",p:"{usina}: o KraftSun lista as usinas da conta e você escolhe."},
+  {h:"Completar o cadastro",p:"kWp, cidade e cliente. O que o portal já tem vem preenchido."},
+  {h:"Rodar o laudo",p:"O primeiro laudo é cortesia do KraftSun."}
+];
 var PASSOS=[
-  {h:"Link no WhatsApp",p:"Pagamento por Pix ou cartão e o link do primeiro acesso, enviados por {closer}."},
-  {h:"Pagamento confirmado",p:"A assinatura do {plano} fica ativa na hora."},
-  {h:"Primeiro acesso",p:"{contato} cria a senha e entra na conta da {empresa}."},
-  {h:"Primeira usina conectada",p:"{marca}: pela conta do portal do fabricante, de preferência o login de visualização."},
-  {h:"Primeiro laudo",p:"Na conta de vocês, com a sua marca. Daqui em diante, a usina está sendo acompanhada."}
+  {h:"Link de pagamento no WhatsApp",p:"Enviado por {closer}, para a assinatura do {plano} na conta que vocês acabaram de criar."},
+  {h:"Pagamento confirmado",p:"Pix ou cartão. A assinatura fica ativa na hora, e a usina segue acompanhada."},
+  {h:"O resto da carteira",p:"As outras marcas e usinas: agora mesmo, ou na chamada de ativação."}
 ];
 var DEF={v:4,rev:0,slide:0,t0:0,empresa:"",contato:"",cidade:"",closer:"",propPlano:"",propPreco:0,
   usinas:60,marcas:[],comoSabe:"",quemCuida:"",dores:[],dorOuro:"",caso:"",
   idas:8,custoIda:250,pct:40,cliPagam:0,valPagam:0,
   usinaNome:"",marca:"",clienteFinal:"",achado:"",perda:0,quantasAssim:0,exemplo:false,
   clientesMonit:20,valorMonit:30,plano:"",ciclo:"mensal",nota:-1,falta:"",
-  passos:[false,false,false,false,false],dia1:"",prox:"",proxQue:"",proxQuem:"",combinado:false,
+  cad:[false,false,false,false,false],passos:[false,false,false],email:"",whats:"",dia1:"",prox:"",proxQue:"",proxQuem:"",combinado:false,
   vespera:[false,false,false,false,false],tk:{}};
 var NUM={usinas:1,propPreco:1,idas:1,custoIda:1,pct:1,cliPagam:1,valPagam:1,perda:1,quantasAssim:1,clientesMonit:1,valorMonit:1};
-var KEY="kraftsun-demo-v4",TTL=12*3600*1000;
+var KEY="kraftsun-demo-v4-1",TTL=12*3600*1000;
 var S=clone(DEF);
 function clone(o){return JSON.parse(JSON.stringify(o));}
 function load(){
   try{var raw=localStorage.getItem(KEY);if(!raw)return;var o=JSON.parse(raw);
     if(o&&o.S&&o.ts&&Date.now()-o.ts<TTL){S=Object.assign(clone(DEF),o.S);}}catch(e){}
+  if(!Array.isArray(S.cad)||S.cad.length!==5)S.cad=[false,false,false,false,false];
+  if(!Array.isArray(S.passos)||S.passos.length!==3)S.passos=[false,false,false];
 }
 function save(){try{localStorage.setItem(KEY,JSON.stringify({ts:Date.now(),S:S}));}catch(e){}}
 var chan=null;try{chan=new BroadcastChannel(KEY);}catch(e){}
@@ -948,9 +1009,10 @@ function custoMes(){return n0(S.idas)*n0(S.custoIda)*n0(S.pct)/100;}
 function receitaMonit(){return n0(S.clientesMonit)*n0(S.valorMonit);}
 function sobra(){var pm=precoMes();return custoMes()+receitaMonit()-(pm==null?0:pm);}
 function fechou(){return !!S.passos[1];}
-function ativo(){return S.passos.every(Boolean);}
+function ativo(){return !!S.passos[1];}
+function marcaTxt(){return tr(S.marca)||S.marcas.filter(function(m){return m!=="Outra";})[0]||"";}
 function nomeEmpresa(){return tr(S.empresa)||"sua empresa";}
-function sub(t){return t.replace("{closer}",tr(S.closer)||"mim").replace("{plano}",nomePlano()).replace("{contato}",tr(S.contato)||"Você").replace("{empresa}",nomeEmpresa()).replace("{marca}",tr(S.marca)||(S.marcas.filter(function(m){return m!=="Outra";})[0]||"A marca escolhida"));}
+function sub(t){return t.replace("{usina}",tr(S.usinaNome)||"A usina que mais dá trabalho").replace("{closer}",tr(S.closer)||"mim").replace("{plano}",nomePlano()).replace("{contato}",tr(S.contato)||"Você").replace("{empresa}",nomeEmpresa()).replace("{marca}",tr(S.marca)||(S.marcas.filter(function(m){return m!=="Outra";})[0]||"A marca escolhida"));}
 function dorTexto(){var d=null;DORES.forEach(function(x){if(x.id===S.dorOuro)d=x;});return d?d.t:"";}
 
 /* ---------------- textos dinâmicos ---------------- */
@@ -991,7 +1053,10 @@ var T={
   planoEscNome:function(){return nomePlano();},
   planoEscValor:function(){var id=escolhidoId();if(id==="sob")return "valor com o gestor";var pm=precoMes();if(S.ciclo==="anual"&&id!=="proposta"){var p=planoById(id);return brl(p.preco*10)+" por ano";}return brl(pm)+" por mês";},
   cicloTxt:function(){return escolhidoId()==="proposta"?"Condição da proposta":(S.ciclo==="anual"?"Anual · 12 meses pelo preço de 10":"Mensal · sem fidelidade");},
-  marcaTxt:function(){return tr(S.marca)||S.marcas.filter(function(m){return m!=="Outra";})[0]||"";},
+  marcaTxt:marcaTxt,
+  emailTxt:function(){return tr(S.email)||"o e-mail que você usa no trabalho";},
+  whatsTxt:function(){return tr(S.whats)||"o WhatsApp da empresa";},
+  usinaContaTxt:function(){return (tr(S.usinaNome)||"1 usina")+(marcaTxt()?" · "+marcaTxt():"");},
   virgContato:function(){return tr(S.contato)?", "+tr(S.contato):"";},
   ultimoEy:function(){return fechou()?"Os próximos 30 dias":"O nosso próximo passo";}
 };
@@ -1024,6 +1089,7 @@ var C={
   notaAlta:function(){return S.nota>=8;},
   temMarca:function(){return !!T.marcaTxt();},
   ativo:ativo,
+  temUsinaConta:function(){return !!S.cad[2];},
   naoAtivo:function(){return !ativo();},
   fechou:fechou,
   naoFechou:function(){return !fechou();},
@@ -1041,38 +1107,42 @@ function NOTAS(i){
    '<div class="say">Oi, '+nome()+'! Obrigado por separar esse tempo. Antes de começar: quem mais da '+emp+' cuida do pós-venda ou decide sobre ferramenta? Vale chamar agora.</div>'+
    '<ul><li>Câmera ligada. Compartilhe só a aba da apresentação.</li><li>Quem decide não está? Pergunte se entra nos próximos minutos. Se não puder, a meta da demo vira marcar a decisão com ele junto.</li></ul>'],
   ["0:30 a 3:00","O combinado é o compromisso de decidir no fim",
-   '<div class="say">Combinamos 30 minutos. Primeiro quero entender como vocês cuidam das usinas hoje; depois te mostro o KraftSun numa usina sua; e no fim, se fizer sentido, você já sai usando, com a conta ativa e a primeira usina conectada. Pode ser assim?</div>'+
-   '<ul><li>Espere o sim e clique em <b>Combinado</b>.</li><li>Se ele disser que só quer conhecer: <i>“Tranquilo. Se no fim fizer sentido, a gente já deixa ativo; se não fizer, você me diz o que faltou.”</i></li></ul>'],
+   '<div class="say">Combinamos 30 minutos. Primeiro quero entender como vocês cuidam das usinas hoje. Depois a gente cria a conta de vocês no KraftSun, conecta uma usina sua e o laudo roda nela. E no fim, se fizer sentido, você já sai assinante. Pode ser assim?</div>'+
+   '<ul><li>Espere o sim e clique em <b>Combinado</b>.</li><li>Pergunte já: <i>“Você está no computador? Tem à mão o login do portal do inversor e o CNPJ?”</i> Se não tiver, peça para ir buscando enquanto vocês conversam.</li><li>Se ele disser que só quer conhecer: <i>“Tranquilo. Se no fim fizer sentido, a gente deixa ativo; se não fizer, você me diz o que faltou.”</i></li></ul>'],
   ["3:00 a 5:00","Descobrir: a carteira",
    '<ul><li><i>“Quantas usinas vocês acompanham hoje?”</i> O número define o plano recomendado.</li><li><i>“De quais marcas?”</i> Marque com ele. Marca fora da lista: marque Outra, anote no resumo e diga que vai confirmar. Não prometa data.</li><li><i>“Como vocês ficam sabendo que uma usina parou?”</i></li><li><i>“Quem cuida disso no dia a dia?”</i></li></ul>'+
-   '<div class="warn"><b>Regra dos 3 minutos:</b> se você falou mais de 3 minutos seguidos, volte a perguntar. Até o minuto 10, quem fala mais é ele.</div>'],
-  ["5:00 a 8:00","Descobrir: a dor de ouro",
+   '<div class="warn"><b>Regra dos 3 minutos:</b> se você falou mais de 3 minutos seguidos, volte a perguntar. Na descoberta, quem fala mais é ele.</div>'],
+  ["5:00 a 7:30","Descobrir: a dor de ouro",
    '<div class="say">Vou ler umas situações que todo integrador conta. Me diz quais já aconteceram aí.</div>'+
-   '<ul><li>Leia em voz alta e marque as que ele confirmar.</li><li>Depois: <i>“Qual dessas mais te custou este ano?”</i> Marque a estrela.</li><li>Aprofunde: <i>“E o que aconteceu depois?” “Quanto isso custou?” “Com que frequência acontece?”</i></li><li>Escreva o caso nas palavras dele. Você vai repetir essa frase no fechamento.</li><li>Espelhe as últimas palavras dele em tom de pergunta. Rotule: <i>“Parece que isso te tira do sério.”</i></li></ul>'],
-  ["8:00 a 10:00","Descobrir: o custo de hoje",
+   '<ul><li>Leia em voz alta e marque as que ele confirmar.</li><li>Depois: <i>“Qual dessas mais te custou este ano?”</i> Marque a estrela.</li><li>Aprofunde: <i>“E o que aconteceu depois?” “Quanto isso custou?” “Com que frequência acontece?”</i></li><li>Escreva o caso nas palavras dele. Você vai repetir essa frase no fechamento.</li></ul>'],
+  ["7:30 a 9:00","Descobrir: o custo de hoje",
    '<ul><li><i>“Quantas idas a campo vocês fazem por mês?”</i></li><li><i>“Quanto custa cada ida, com carro, combustível e técnico?”</i></li><li><i>“Dessas, quantas são só para descobrir o que era?”</i> Referência: cerca de 4 em cada 10. Use o número dele.</li><li><i>“Algum cliente paga mensalidade de acompanhamento ou manutenção hoje? Quanto?”</i></li></ul>'+
-   '<div class="warn"><b>Nunca chute.</b> Se ele não souber, pergunte o mínimo que ele acha possível. Pare no resultado e deixe ele ler o número em silêncio.</div>'],
-  ["10:00 a 16:00","Laudo ao vivo, na usina dele",
-   '<ul><li>Preencha a usina e a marca. Troque para a aba do KraftSun, já logado, e rode o laudo com o login de visualização pedido na véspera.</li><li>Enquanto roda: <i>“Essa usina já deu trabalho antes?”</i></li><li>Escolha o achado mais forte e conte em quatro tempos: <b>causa</b>, <b>dinheiro</b> (só se o laudo trouxer o número), <b>roteiro</b> e <b>prova</b>.</li><li>Usina saudável: <i>“Esta está bem, e você sabe disso sem sair do escritório. De quantas da sua carteira você consegue dizer o mesmo hoje?”</i></li><li>Pediu para ver outra usina? É sinal de compra: mostre.</li></ul>'+
+   '<div class="warn"><b>Nunca chute.</b> Se ele não souber, pergunte o mínimo que ele acha possível. Pare no resultado, deixe ele ler o número e emende: <i>“Vamos ver isso numa usina sua?”</i></div>'],
+  ["9:00 a 15:00","Criar a conta e conectar uma usina dele",
+   '<div class="say">Agora a gente cria a conta de vocês no KraftSun e traz a usina que mais dá trabalho. O laudo vai rodar nela, na conta de vocês.</div>'+
+   '<ul><li>Mande o endereço no chat do Meet: <b>app.kraftsun.com.br/registro</b>. Ele cria a conta no computador dele; a senha é só dele.</li><li><b>Use o e-mail e o WhatsApp da ficha do CRM:</b> assim a conta entra no negócio dele e não vira lead novo, e o ganho depois reaproveita essa conta.</li><li>Peça para ele compartilhar a tela dele no Meet. A conta abre em <b>Ative em 10 minutos</b>: conectar a marca, trazer a usina, completar o cadastro e rodar o laudo. Guie passo a passo e marque cada um aqui.</li><li>Na conexão, quem digita o login do portal é ele. Prefira o login de visualização. Na Sungrow, é por autorização, sem senha.</li><li>Sem pagamento para criar a conta: ela já vem com 1 laudo de cortesia. Fale sempre “cortesia”.</li></ul>'+
+   '<div class="warn"><b>Travou?</b> Conectar tem no máximo 4 minutos. Senha esquecida ou portal fora do ar: siga com o laudo de exemplo (tela 8) e deixe a usina dele para a chamada de ativação.</div>'],
+  ["15:00 a 18:00","Laudo ao vivo, na conta dele",
+   '<ul><li>Enquanto roda: <i>“Essa usina já deu trabalho antes?”</i></li><li>Escolha o achado mais forte e conte em quatro tempos: <b>causa</b>, <b>dinheiro</b> (só se o laudo trouxer o número), <b>roteiro</b> e <b>prova</b>.</li><li>Usina saudável: <i>“Esta está bem, e você sabe disso sem sair do escritório. De quantas da sua carteira você consegue dizer o mesmo hoje?”</i></li><li>Pediu para ver outra usina? É sinal de compra. O laudo de cortesia é um só: a próxima usina roda depois de assinar.</li></ul>'+
    '<div class="warn">O laudo leva alguns minutos, não segundos. Nunca prometa correção do inversor à distância: o KraftSun diagnostica e orienta, o técnico corrige.</div>'],
-  ["16:00 a 17:00","Registrar e medir a dor",
-   '<ul><li>Escreva o achado em uma frase. Perda em reais só se o laudo trouxer o número.</li><li>Pergunte: <i>“Isso acontece com quantas usinas suas hoje?”</i> A resposta é o tamanho da dor.</li><li>Sem acesso à usina dele: use o laudo de exemplo e deixe a primeira usina dele para a ativação, logo depois do pagamento.</li></ul>'],
-  ["17:00 a 21:00","A conta com os números dele",
+  ["18:00 a 19:00","Registrar e medir a dor",
+   '<ul><li>Escreva o achado em uma frase. Perda em reais só se o laudo trouxer o número.</li><li>Pergunte: <i>“Isso acontece com quantas usinas suas hoje?”</i> A resposta é o tamanho da dor.</li><li>Sem usina conectada: use o laudo de exemplo e marque a ativação da usina dele.</li></ul>'],
+  ["19:00 a 22:00","A conta com os números dele",
    '<div class="say">Vamos fazer a conta com os seus números. Quantos dos seus clientes topariam pagar '+brl(v)+' por mês para ter a usina acompanhada e o alerta no WhatsApp?</div>'+
    '<ul><li>Mexa nos controles com ele. O preço que ele cobra é decisão dele; referência de mercado: de R$ 15 a R$ 30 por mês.</li><li>Se ele já cobra alguém, conte só quem ainda não paga.</li>'+(eq?'<li>Feche com o ponto de equilíbrio: <i>“Com '+eq+(eq===1?" cliente":" clientes")+', o plano está pago. O resto é de vocês.”</i></li>':'')+'</ul>'],
-  ["21:00 a 24:00","Dois caminhos",
+  ["22:00 a 25:00","Dois caminhos",
    '<div class="say">Pelo tamanho da sua carteira, o '+esc(rec)+' cobre tudo hoje. '+(fol?'O '+esc(folN)+' te dá folga para crescer. ':'')+'E no anual são 12 meses pelo preço de 10.</div>'+
-   '<ul><li>Deixe ele escolher: clique no cartão que ele disser.</li><li>Preço por usina ajuda: no Integrador sai R$ 3,59 por usina por mês.</li><li>Lead com proposta antiga mantém a condição dela: preencha na Ficha e use o botão da proposta.</li><li>Desconto acima do teto só com aprovação do gestor, pelo CRM. Nunca prometa antes.</li><li>Acima de 300 usinas: sob medida, valor com o gestor.</li></ul>'],
-  ["24:00 a 25:00","Fechamento de teste",
+   '<ul><li>Deixe ele escolher: clique no cartão que ele disser.</li><li>Os preços são os mesmos do CRM e do site: a proposta pelo CRM sai com eles.</li><li>Preço por usina ajuda: no Integrador sai R$ 3,59 por usina por mês.</li><li>Lead com proposta antiga mantém a condição dela: preencha na Ficha e use o botão da proposta.</li><li>Desconto acima do teto só com aprovação do gestor, pelo CRM. Nunca prometa antes.</li><li>Acima de 300 usinas: sob medida, valor com o gestor.</li></ul>'],
+  ["25:00 a 26:00","Fechamento de teste",
    '<div class="say">De 0 a 10, quanto isso resolve o que você me contou?</div>'+
-   '<ul><li>A frase dele (ou o cartão da estrela) está na tela: leia em voz alta antes de perguntar. Depois, silêncio.</li><li><b>8 a 10:</b> <i>“Então vamos começar. Te mando o link agora.”</i></li><li><b>5 a 7:</b> <i>“O que faltaria para chegar a 9?”</i> A resposta é a objeção real: escreva, resolva e pergunte de novo.</li><li><b>Abaixo de 5:</b> volte à dor de ouro e à conta.</li><li>“Vou analisar”: <i>“Claro. O que você precisa analisar: o preço, a implantação ou falar com alguém?”</i></li></ul>'],
-  ["25:00 a 30:00","Fechar e ativar ao vivo",
+   '<ul><li>A frase dele (ou o cartão da estrela) está na tela: leia em voz alta antes de perguntar. Depois, silêncio.</li><li><b>8 a 10:</b> <i>“Então vamos ativar. Te mando o link agora.”</i></li><li><b>5 a 7:</b> <i>“O que faltaria para chegar a 9?”</i> A resposta é a objeção real: escreva, resolva e pergunte de novo.</li><li><b>Abaixo de 5:</b> volte à dor de ouro, ao laudo da usina dele e à conta.</li><li>“Vou analisar”: <i>“Claro. O que você precisa analisar: o preço, a implantação ou falar com alguém?”</i></li></ul>'],
+  ["26:00 a 30:00","Ativar a assinatura ao vivo",
    '<div class="say">Com qual prefere começar hoje: '+(A.indexOf("condição")===0?"a ":"o ")+esc(A)+' ou o '+esc(B)+'? Te mando o link agora.</div>'+
-   '<ul><li>Depois da pergunta, silêncio. Quem fala primeiro perde força.</li><li>Depois do sim: no CRM, ficha do lead, <b>Marcar como ganho</b> com o plano e o ciclo. Ele recebe no WhatsApp o link de pagamento (Pix ou cartão) e o de primeiro acesso, assinados por você.</li><li>Fique na call enquanto ele paga, entra e conecta. Marque cada passo nesta tela quando acontecer.</li><li>Conectar: no máximo 4 minutos. Travou (senha esquecida, portal fora do ar)? Marque a ativação para as próximas 24 horas.</li><li>Reverta o risco: 7 dias de garantia, mensal sem fidelidade.</li></ul>'],
+   '<ul><li>Depois da pergunta, silêncio. Quem fala primeiro perde força.</li><li>Depois do sim: no CRM, ficha do lead, <b>Marcar como ganho</b> com o plano e o ciclo. Confira antes, em Editar dados, se o e-mail é o mesmo da conta criada e se o CPF ou CNPJ está preenchido: o KraftSun reaproveita a conta dele e manda o link de pagamento no WhatsApp, assinado por você.</li><li>Fique na call até o pagamento confirmar. Marque cada passo nesta tela quando acontecer.</li><li>Sobrou tempo? Conecte mais uma marca com ele agora. Se não, o resto da carteira vai para a chamada de ativação.</li><li>Reverta o risco: 7 dias de garantia, mensal sem fidelidade.</li></ul>'],
   ["Fim","Sair com tudo marcado",
-   '<ul><li><b>Fechou:</b> marque o dia 1 (ativação da carteira, 20 minutos) e confira as atividades dos dias 7 e 30 no CRM.</li><li><b>Não fechou:</b> data e hora nos próximos 2 dias, o que vai ser resolvido e quem participa. Envie a proposta pelo CRM: o link é rastreado e você recebe aviso quando ele abrir.</li><li>Nunca termine com “fico no aguardo”.</li><li>Depois da call: aba <b>Resumo para o CRM</b>, copiar e colar na ficha.</li></ul>']
+   '<ul><li><b>Fechou:</b> marque o dia 1 (ativação da carteira, 20 minutos) e confira as atividades dos dias 7 e 30 no CRM.</li><li><b>Não fechou:</b> a conta e a usina dele continuam lá. Saia com data e hora nos próximos 2 dias, o que vai ser resolvido e quem participa. Envie a proposta pelo CRM: o link é rastreado e você recebe aviso quando ele abrir.</li><li>Nunca termine com “fico no aguardo”.</li><li>Depois da call: aba <b>Resumo para o CRM</b>, copiar e colar na ficha.</li></ul>']
   ];
-  var x=L[i];return '<span class="tm">'+x[0]+' · tela '+(i+1)+' de 12</span><h3>'+x[1]+'</h3>'+x[2];
+  var x=L[i];return '<span class="tm">'+x[0]+' · tela '+(i+1)+' de '+L.length+'</span><h3>'+x[1]+'</h3>'+x[2];
 }
 var OBJ=[
   ["“Está caro.”","<b>Você:</b> “Caro comparado com o quê? Vamos olhar a conta com os seus números.” <b>Mostre:</b> a tela da conta e o ponto de equilíbrio."],
@@ -1095,6 +1165,7 @@ function resumo(){
   var L=[];
   L.push("Demo KraftSun · "+dt+(tr(S.closer)?" · "+tr(S.closer):""));
   L.push("Empresa: "+(tr(S.empresa)||"(sem nome)")+(tr(S.contato)?" · Contato: "+tr(S.contato):"")+(tr(S.cidade)?" · "+tr(S.cidade):""));
+  if(tr(S.email)||tr(S.whats))L.push("Cadastro: "+[tr(S.email),tr(S.whats)].filter(Boolean).join(" · "));
   L.push("");
   L.push("Carteira: "+int(S.usinas)+" usinas"+(S.marcas.length?" · Marcas: "+S.marcas.join(", "):""));
   if(S.comoSabe)L.push("Fica sabendo que parou por: "+S.comoSabe);
@@ -1104,6 +1175,9 @@ function resumo(){
   L.push("");
   L.push("Custo hoje: "+int(S.idas)+" idas/mês a "+brl(S.custoIda)+", "+n0(S.pct)+"% só para descobrir = "+brl(custoMes())+"/mês ("+brl(custoMes()*12)+"/ano)");
   L.push("Receita do pós-venda hoje: "+brl(n0(S.cliPagam)*n0(S.valPagam))+"/mês ("+int(S.cliPagam)+" clientes)");
+  var cadOk=S.cad.map(function(b,i){return b?CAD[i].h:null;}).filter(Boolean);
+  L.push("");
+  L.push("Conta no KraftSun na call: "+(cadOk.length?cadOk.join(", "):"não criada"));
   if(tr(S.usinaNome)||tr(S.achado)||S.exemplo){
     L.push("");
     L.push("Laudo: "+(S.exemplo?"laudo de exemplo (sem acesso à usina dele)":(tr(S.usinaNome)||"usina")+(tr(S.marca)?" ("+tr(S.marca)+")":"")+(tr(S.achado)?": "+tr(S.achado):"")));
@@ -1116,7 +1190,7 @@ function resumo(){
   if(S.nota>=0)L.push("Nota: "+S.nota+"/10"+(tr(S.falta)?" · Faltava: "+tr(S.falta):""));
   var feitos=S.passos.map(function(b,i){return b?PASSOS[i].h:null;}).filter(Boolean);
   L.push("");
-  if(fechou()){L.push("FECHOU. Passos concluídos na call: "+(feitos.join(", ")||"nenhum"));if(tr(S.dia1))L.push("Dia 1 (ativação): "+tr(S.dia1));}
+  if(fechou()){L.push("FECHOU. Assinatura: "+(feitos.join(", ")||"nenhum passo"));if(tr(S.dia1))L.push("Dia 1 (ativação): "+tr(S.dia1));}
   else{L.push("Não fechou na call."+(feitos.length?" Passos: "+feitos.join(", "):""));if(tr(S.prox))L.push("Próximo passo: "+tr(S.prox)+(tr(S.proxQue)?" · "+tr(S.proxQue):"")+(tr(S.proxQuem)?" · com "+tr(S.proxQuem):""));}
   return L.join("\n");
 }
@@ -1128,7 +1202,7 @@ slides.forEach(function(sl,i){
   var dk=sl.classList.contains("dk");var b=+sl.getAttribute("data-b");
   var ft=document.createElement("div");ft.className="ft";
   var segs=BLOCOS.map(function(x,j){return '<span class="seg'+(j<b?" done":"")+(j===b?" cur":"")+'"><i></i>'+x[0]+'</span>';}).join("");
-  ft.innerHTML='<span class="logo '+(dk?"w":"n")+'" role="img" aria-label="KraftSun"></span><div class="prog">'+segs+'</div><span class="pg">'+String(i+1).padStart(2,"0")+" / 12</span>";
+  ft.innerHTML='<span class="logo '+(dk?"w":"n")+'" role="img" aria-label="KraftSun"></span><div class="prog">'+segs+'</div><span class="pg">'+String(i+1).padStart(2,"0")+" / "+String(slides.length).padStart(2,"0")+"</span>";
   if(i>0)sl.appendChild(ft);
 });
 document.getElementById("brands").innerHTML=MARCAS.map(function(m){return '<button class="chip" type="button" data-pick="marcas|'+esc(m)+'">'+esc(m)+'</button>';}).join("");
@@ -1156,12 +1230,16 @@ function renderPlans(){
   var el=document.getElementById("plans");el.className="plans"+(four?" four":"");el.innerHTML=html;
 }
 function renderSteps(){
-  var prox=S.passos.indexOf(false);
-  document.getElementById("steps").innerHTML=PASSOS.map(function(p,i){
-    var on=S.passos[i];var cls="st"+(on?" on":"")+(i===prox?" nx":"");
-    return '<button type="button" class="'+cls+'" data-act="passo" data-v="'+i+'"><span class="n">'+(on?"✓":(i+1))+'</span><h4>'+esc(p.h)+'</h4><p>'+esc(sub(p.p))+'</p><span class="stt">'+(on?"feito":(i===prox?"agora":"a seguir"))+'</span></button>';
-  }).join("");
-  var feitos=S.passos.filter(Boolean).length;document.getElementById("bar").style.width=(feitos/5*100)+"%";
+  [["steps","passos",PASSOS,"bar"],["cad","cad",CAD,"bar-cad"]].forEach(function(cf){
+    var arr=S[cf[1]],prox=arr.indexOf(false);
+    document.getElementById(cf[0]).innerHTML=cf[2].map(function(p,i){
+      var on=arr[i];var cls="st"+(on?" on":"")+(i===prox?" nx":"");
+      return '<button type="button" class="'+cls+'" data-act="passo" data-k="'+cf[1]+'" data-v="'+i+'"><span class="n">'+(on?"✓":(i+1))+'</span><h4>'+esc(p.h)+'</h4><p>'+esc(sub(p.p))+'</p><span class="stt">'+(on?"feito":(i===prox?"agora":"a seguir"))+'</span></button>';
+    }).join("");
+    document.getElementById(cf[3]).style.width=(arr.filter(Boolean).length/arr.length*100)+"%";
+  });
+  var ok=[["Conta criada",S.cad[0]],[(marcaTxt()||"Portal do fabricante")+" conectado",S.cad[1]],[(tr(S.usinaNome)||"Usina")+" na conta",S.cad[2]],["Laudo rodando",S.cad[4]]];
+  document.getElementById("okl").innerHTML=ok.map(function(x){return '<li class="'+(x[1]?"on":"")+'"><i>'+(x[1]?"✓":"")+'</i>'+esc(x[0])+'</li>';}).join("");
 }
 
 /* ---------------- render ---------------- */
@@ -1208,8 +1286,8 @@ var ACT={
   exemplo:function(){S.exemplo=!S.exemplo;commit();},
   nota:function(el){var v=+el.getAttribute("data-v");S.nota=S.nota===v?-1:v;commit();},
   plano:function(el){S.plano=el.getAttribute("data-v");commit();},
-  passo:function(el){var i=+el.getAttribute("data-v");var on=!S.passos[i];
-    if(on){for(var j=0;j<=i;j++)S.passos[j]=true;}else{for(var k=i;k<5;k++)S.passos[k]=false;}commit();},
+  passo:function(el){var key=el.getAttribute("data-k")||"passos";var arr=S[key];var i=+el.getAttribute("data-v");var on=!arr[i];
+    if(on){for(var j=0;j<=i;j++)arr[j]=true;}else{for(var k=i;k<arr.length;k++)arr[k]=false;}commit();},
   prev:function(){go(S.slide-1);},
   next:function(){go(S.slide+1);},
   drawer:function(){drawerOpen=!drawerOpen;document.getElementById("drawer").hidden=!drawerOpen;render();},
