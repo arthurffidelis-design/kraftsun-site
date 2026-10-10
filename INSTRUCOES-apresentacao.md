@@ -1,32 +1,26 @@
-# Apresentações KraftSun no site (pasta /apresentacao) · v3
+# Apresentação da demo KraftSun no site (pasta /apresentacao) · v4
+
+## O que mudou na v4 (10/10/2026)
+- As 6 apresentações por dor viraram **uma demo só**, de 12 telas, que termina sempre no fechamento: plano escolhido, pagamento, conta ativa e a primeira usina conectada.
+- **Planos novos**: Técnico R$ 189 (50 usinas, 8 diagnósticos), Integrador R$ 449 (125 usinas, 20 diagnósticos), O&M R$ 989 (300 usinas, 45 diagnósticos), auditoria das contas em todas as usinas (até 5 contas cada), anual com 12 meses pelo preço de 10, excedentes na mesma fatura e sob medida acima de 300 usinas. Lead com proposta antiga mantém a condição dela (campo na Ficha).
+- O lead responde **na tela**: carteira, marcas, o que já aconteceu, o caso que mais custou, o custo de hoje, o achado do laudo, quantos clientes pagariam o acompanhamento e a nota de 0 a 10. A conta e o plano recomendado saem desses números.
+- **Janela do condutor**: falas de cada tela, objeções, cronômetro por bloco e o **resumo pronto para colar no CRM**.
+- `apresentacao/guia/` (Guia do Consultor) não mudou nesta versão e ainda tem os preços antigos.
 
 ## O que tem no pacote
-- `apresentacao/index.html`: as 6 apresentações para call no Meet (Geral, Diagnóstico, Monitoramento, O&M, Financeiro, Conta), com a Ficha do lead, o modo apresentador, as calculadoras e os cartões "quais dessas já aconteceram aí?".
-- `apresentacao/guia/index.html`: o Guia do Consultor, com as seções "Contar a história" e "Pós-venda que vende".
-
-Cada página é um arquivo único, com fontes, imagens e animações dentro. Não precisa de mais nada.
-
-## Como subir (GitHub pelo navegador)
-1. Abra o repositório do site: `arthurffidelis-design/kraftsun-site`.
-2. Clique em **Add file**, depois em **Upload files**.
-3. Arraste a **pasta `apresentacao` inteira** (a pasta, não só os arquivos de dentro). O GitHub mantém a subpasta `guia`. Se já existir, os arquivos são substituídos.
-4. Mensagem do commit: `Apresentações e Guia do Consultor (v3)`. Clique em **Commit changes**.
-5. O Render publica sozinho. Em 1 ou 2 minutos, confira:
-   - https://www.kraftsun.com.br/apresentacao/
-   - https://www.kraftsun.com.br/apresentacao/guia/
-
-A página inicial do site não muda: só entra a pasta nova.
+- `apresentacao/index.html`: a demo, num arquivo único (imagens dentro; fontes do Google Fonts).
 
 ## Quem consegue ver
-- As duas páginas têm `noindex, nofollow` e não estão no sitemap: o Google não lista.
-- Não tem senha: quem tiver o link abre. O Guia tem scripts e objeções de uso interno, então passe o link só para a equipe.
+- A página tem `noindex, nofollow` e não está no sitemap: o Google não lista.
+- Não tem senha: quem tiver o link abre. As falas e objeções ficam na janela do condutor, então passe o link só para a equipe.
 
 ## Como usar na call
-1. Abra /apresentacao/ e preencha a **Ficha do lead**: empresa, nome, cidade, usinas, visitas às cegas, custo da visita e acompanhamento por usina (começa em R$ 30).
-2. Clique em **Apresentar** e abra o mesmo link em outra aba. Na sua aba, aperte **P** para o modo apresentador, com as falas, o próximo slide, o cronômetro e a ficha para ajustar ao vivo. No Meet, compartilhe a outra aba.
-3. Tudo que você digita ou marca aparece nas duas abas na hora: a ficha, a calculadora e os cartões.
-4. **Copiar link desta call** gera um link com a ficha já preenchida, bom para preparar antes.
-5. Ao terminar, clique em **Limpar para o próximo lead**. A ficha também some sozinha em 12 horas.
+1. Abra https://www.kraftsun.com.br/apresentacao/ e preencha a **Ficha do lead** (empresa, contato, cidade, seu nome, usinas, usina do laudo e, se houver, a proposta anterior).
+2. Clique em **Abrir janela do condutor** (ou tecla **P**). É lá que ficam as falas, as objeções, o cronômetro e o resumo para o CRM.
+3. Na outra aba, clique em **Apresentar** e compartilhe **só essa aba** no Meet.
+4. O que você marca ou digita numa janela aparece na outra na hora. Navegue com as setas (ou PageDown/PageUp, que funcionam até de dentro de um campo). **Esc** volta para a Ficha.
+5. No fim, aba **Resumo para o CRM**, **Copiar resumo** e colar na ficha do lead.
+6. Clique em **Limpar para o próximo lead**. A ficha também se apaga sozinha em 12 horas.
 
 ## Para atualizar depois
-Suba de novo a pasta `apresentacao` com os arquivos novos, substituindo os antigos.
+Substitua `apresentacao/index.html` pelo arquivo novo.
