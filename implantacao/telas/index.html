@@ -1,0 +1,1003 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="/favicon-32x32.png">
+<title>Roteiro de implantação KraftSun</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* Layout: manual de campo. Linha do tempo no topo, um capítulo por encontro com barra de minutos, passos e a tela real marcada. */
+:root{
+  --bg:#f2f4f8; --surface:#ffffff; --surface2:#eef2f8; --ink:#13213a; --muted:#5b6b84; --line:#dbe2ec;
+  --navy:#0d1c33; --navy-ink:#ffffff; --or:#ff7a1a; --or-ink:#ffffff; --or-soft:#fff1e6; --or-text:#c25300;
+  --good:#1f8a4c; --good-soft:#e5f5ec; --crit:#b83a2e; --crit-soft:#fbe9e7; --info-soft:#e8f0fb;
+  --f-display:"Lexend",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:14px; --shadow:0 1px 2px rgba(13,28,51,.06),0 6px 20px rgba(13,28,51,.06);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0a1322; --surface:#111d31; --surface2:#16253d; --ink:#e6ecf5; --muted:#9aa9bf; --line:#22344f;
+  --navy:#0f2140; --navy-ink:#ffffff; --or:#ff8a33; --or-ink:#1a0d00; --or-soft:#2b1c10; --or-text:#ffad6b;
+  --good:#46c47f; --good-soft:#12301f; --crit:#ff8578; --crit-soft:#3a1714; --info-soft:#14243c;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0a1322; --surface:#111d31; --surface2:#16253d; --ink:#e6ecf5; --muted:#9aa9bf; --line:#22344f;
+  --navy:#0f2140; --navy-ink:#ffffff; --or:#ff8a33; --or-ink:#1a0d00; --or-soft:#2b1c10; --or-text:#ffad6b;
+  --good:#46c47f; --good-soft:#12301f; --crit:#ff8578; --crit-soft:#3a1714; --info-soft:#14243c;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5;margin:0}
+h1,h2,h3,h4{font-family:var(--f-display);margin:0;line-height:1.15;letter-spacing:-.01em;text-wrap:balance}
+p{margin:0}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.muted{color:var(--muted)}
+.kicker{font-family:var(--f-display);font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--or-text)}
+.tab{font-variant-numeric:tabular-nums}
+
+/* barra fixa */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--navy)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--navy);color:var(--navy-ink)}
+.top .wrap{display:flex;align-items:center;gap:18px;padding-block:10px}
+.top img{height:26px;width:auto;display:block}
+.jump{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
+.jump::-webkit-scrollbar{display:none}
+.jump a{font-family:var(--f-display);font-size:13px;font-weight:500;text-decoration:none;color:rgba(255,255,255,.78);padding:6px 10px;border-radius:8px;white-space:nowrap}
+.jump a:hover,.jump a:focus-visible{background:rgba(255,255,255,.1);color:#fff;outline:none}
+.jump a b{color:#ffad6b;font-weight:700;margin-right:4px}
+
+/* hero */
+.hero{background:var(--navy);color:var(--navy-ink);padding-block:36px 44px}
+.hero h1{font-size:clamp(32px,5vw,54px);font-weight:800;letter-spacing:-.025em}
+.hero .sub{font-size:18px;color:rgba(255,255,255,.82);max-width:60ch;margin-top:14px}
+.hero .kicker{color:#ffad6b}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.fact{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:6px 14px;font-size:14px}
+.fact b{font-family:var(--f-display);color:#ffad6b}
+
+/* linha do tempo */
+.tl{margin-top:34px;overflow-x:auto;padding-bottom:6px}
+.tl-track{display:grid;grid-template-columns:repeat(7,minmax(128px,1fr));gap:0;min-width:900px;position:relative}
+.tl-track::before{content:"";position:absolute;left:24px;right:24px;top:23px;height:3px;background:rgba(255,255,255,.18);border-radius:3px}
+.tl-node{position:relative;text-decoration:none;color:inherit;padding:0 8px;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.tl-dot{width:48px;height:48px;border-radius:50%;background:var(--or);color:var(--or-ink);font-family:var(--f-display);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;box-shadow:0 0 0 5px var(--navy)}
+.tl-node.soft .tl-dot{background:#21365c;color:#fff;border:2px dashed rgba(255,255,255,.45)}
+.tl-node h3{font-size:16px;font-weight:700}
+.tl-node .dur{font-size:13px;color:#ffad6b;font-family:var(--f-display);font-weight:600}
+.tl-node .out{font-size:13.5px;color:rgba(255,255,255,.78);line-height:1.35}
+.tl-node:hover h3,.tl-node:focus-visible h3{text-decoration:underline;text-underline-offset:3px}
+.tl-node:focus-visible{outline:2px solid #ffad6b;outline-offset:6px;border-radius:8px}
+
+/* seções */
+section.chap{padding-block:48px 8px}
+.chap-head{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;margin-bottom:22px}
+.badge{white-space:nowrap;min-width:76px;height:76px;padding:0 10px;border-radius:18px;background:var(--navy);color:var(--navy-ink);font-family:var(--f-display);font-weight:800;font-size:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.badge small{font-size:11px;font-weight:600;color:#ffad6b;margin-top:5px;letter-spacing:.06em}
+.chap-head h2{font-size:clamp(24px,3.2vw,34px);font-weight:700}
+.chap-head .lead{margin-top:8px;color:var(--muted);font-size:17px;max-width:70ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{font-size:13px;padding:4px 10px;border-radius:999px;background:var(--surface2);color:var(--ink);border:1px solid var(--line)}
+.chip.or{background:var(--or-soft);border-color:transparent;color:var(--or-text);font-weight:600}
+
+.goal{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow)}
+.box h4{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:10px}
+.box.ok{border-color:color-mix(in srgb,var(--good) 40%,var(--line))}
+.box.ok h4{color:var(--good)}
+.box.stop{border-color:color-mix(in srgb,var(--crit) 35%,var(--line))}
+.box.stop h4{color:var(--crit)}
+.checks{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.checks li label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.checks input{width:18px;height:18px;margin-top:3px;accent-color:var(--good);flex:0 0 auto}
+.checks input:focus-visible{outline:2px solid var(--or);outline-offset:2px}
+
+/* barra de minutos */
+.mins{margin:0 0 26px}
+.mins-bar{display:flex;height:40px;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.mins-bar a{display:flex;align-items:center;justify-content:center;text-decoration:none;font-family:var(--f-display);font-weight:700;font-size:13px;color:var(--ink);border-right:1px solid var(--line);min-width:0;white-space:nowrap;overflow:hidden}
+.mins-bar a:last-child{border-right:0}
+.mins-bar a:nth-child(odd){background:var(--or-soft)}
+.mins-bar a:hover,.mins-bar a:focus-visible{background:var(--or);color:var(--or-ink);outline:none}
+.mins-scale{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:6px;font-variant-numeric:tabular-nums}
+
+/* passos */
+.steps{display:grid;gap:18px}
+.step{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:22px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--shadow);scroll-margin-top:80px}
+.step.noshot{grid-template-columns:1fr}
+.step-txt{min-width:0;display:flex;flex-direction:column;gap:12px}
+.step-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.num{width:30px;height:30px;border-radius:50%;background:var(--navy);color:var(--navy-ink);font-family:var(--f-display);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.time{font-family:var(--f-display);font-weight:600;font-size:13px;color:var(--or-text);background:var(--or-soft);padding:3px 10px;border-radius:999px;font-variant-numeric:tabular-nums}
+.step h3{font-size:19px;font-weight:700}
+.path{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:13.5px}
+.path span{background:var(--surface2);border:1px solid var(--line);border-radius:7px;padding:3px 9px;font-weight:600}
+.path i{font-style:normal;color:var(--muted)}
+.say{position:relative;background:var(--info-soft);border-radius:12px;padding:12px 14px 12px 40px;font-style:italic}
+.say::before{content:"";position:absolute;left:14px;top:15px;width:16px;height:14px;border-radius:4px 4px 4px 0;background:var(--or)}
+.step ul.note{margin:0;padding-left:18px;color:var(--muted);font-size:15px;display:grid;gap:4px}
+
+/* tela com marcas */
+.shot{margin:0;min-width:0}
+.frame{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#e9edf3;cursor:zoom-in;aspect-ratio:16/10;max-width:100%}
+.frame img{display:block;width:100%;height:100%;object-fit:cover}
+.frame:focus-visible{outline:3px solid var(--or);outline-offset:2px}
+.mk-box{position:absolute;border:2.5px solid #ff7a1a;border-radius:6px;box-shadow:0 0 0 4px rgba(255,122,26,.18);pointer-events:none}
+.mk-dot{position:absolute;width:24px;height:24px;margin:-12px 0 0 -16px;border-radius:50%;background:#ff7a1a;color:#fff;font-family:var(--f-display);font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.25);pointer-events:none}
+.shot figcaption{margin-top:10px}
+.legend{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:14.5px}
+.legend li{display:flex;gap:8px;align-items:flex-start}
+.legend li b{flex:0 0 auto;width:20px;height:20px;border-radius:50%;background:#ff7a1a;color:#fff;font-family:var(--f-display);font-size:11px;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.shot .cap{font-size:12.5px;color:var(--muted);margin-bottom:6px;font-family:var(--f-display);font-weight:500}
+.two-shots{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* faixas especiais */
+.strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.day{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
+.day .d{font-family:var(--f-display);font-weight:800;font-size:22px;color:var(--or-text)}
+.day h3{font-size:16px}
+.day p{font-size:14.5px;color:var(--muted)}
+.day .frame{aspect-ratio:16/10}
+
+.rules{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.rule{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
+.rule svg{width:34px;height:34px}
+.rule h3{font-size:16.5px}
+.rule p{font-size:14.5px;color:var(--muted)}
+
+.levels{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px}
+.lv{border-radius:10px;padding:10px;background:var(--surface2);border:1px solid var(--line);font-size:13.5px}
+.lv b{display:block;font-family:var(--f-display);font-size:15px}
+.qs{margin:0;padding-left:20px;display:grid;gap:4px;font-size:15px}
+
+.pact{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pact div{background:var(--navy);color:var(--navy-ink);border-radius:12px;padding:12px 14px;font-size:14px}
+.pact div b{display:block;font-family:var(--f-display);color:#ffad6b;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+
+.mapcall{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:22px;background:var(--navy);color:var(--navy-ink);border-radius:var(--r);padding:22px;margin-top:18px}
+.mapcall h3{font-size:22px}
+.mapcall p{color:rgba(255,255,255,.82)}
+.mapcall .price{font-family:var(--f-display);font-weight:800;font-size:28px;color:#ffad6b}
+.mapcall .legend li{color:rgba(255,255,255,.9)}
+.mapcall .frame{border-color:rgba(255,255,255,.2)}
+.mapcall .path span{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.22)}
+.mapcall .path i{color:#ffad6b}
+
+.score{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.score div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;box-shadow:var(--shadow)}
+.score b{display:block;font-family:var(--f-display);font-size:26px;color:var(--or-text);line-height:1}
+.score span{font-size:14px;color:var(--muted)}
+.where{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.where div{border-radius:12px;padding:14px;background:var(--surface);border:1px solid var(--line);font-size:14.5px}
+.where div b{display:block;font-family:var(--f-display);font-size:15px;margin-bottom:4px}
+.where div i{font-style:normal;color:var(--or-text);font-weight:600;font-size:13px}
+
+/* quando travar */
+.stuck{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:8px;box-shadow:var(--shadow)}
+.tag{align-self:flex-start;font-family:var(--f-display);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:6px}
+.t-con{background:var(--info-soft);color:var(--ink)}
+.t-mon{background:var(--or-soft);color:var(--or-text)}
+.t-rot{background:var(--good-soft);color:var(--good)}
+.t-com{background:var(--crit-soft);color:var(--crit)}
+.card h3{font-size:16px}
+.card p{font-size:14.5px;color:var(--muted)}
+.card p.do{color:var(--ink)}
+.card p.do::before{content:"Fazer: ";font-weight:700;color:var(--or-text)}
+
+/* mapa de telas */
+.menubar{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow-x:auto}
+.menu-grid{display:grid;grid-template-columns:repeat(8,minmax(150px,1fr));min-width:1200px}
+.menu-col{border-right:1px solid var(--line)}
+.menu-col:last-child{border-right:0}
+.menu-col h3{font-size:14.5px;padding:14px 14px 12px;border-bottom:3px solid var(--or);background:var(--surface2)}
+.menu-col ul{list-style:none;margin:0;padding:10px 10px 14px;display:grid;gap:6px}
+.menu-col li{font-size:14px;padding:6px 8px;border-radius:8px;display:flex;justify-content:space-between;gap:6px;align-items:center}
+.menu-col li.hot{background:var(--or-soft);font-weight:600}
+.menu-col li em{font-style:normal;font-family:var(--f-display);font-size:11px;font-weight:700;color:var(--or-text);white-space:nowrap}
+
+.never{background:var(--crit-soft);border-radius:var(--r);padding:18px 20px;margin-top:18px}
+.never h3{font-size:16px;color:var(--crit);margin-bottom:8px}
+.never ul{margin:0;padding-left:18px;display:grid;gap:4px}
+
+footer{padding-block:40px 60px;color:var(--muted);font-size:14px}
+
+/* zoom */
+.lb[hidden]{display:none}
+.lb{position:fixed;inset:0;z-index:50;background:rgba(6,12,24,.86);display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.lb .frame{width:min(1400px,100%);cursor:zoom-out;border:0}
+.lb button{position:absolute;top:max(14px,env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px));font:600 15px var(--f-display);background:#fff;color:#0d1c33;border:0;border-radius:10px;padding:8px 14px;cursor:pointer}
+
+.reset{font:600 13px var(--f-display);background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:6px 12px;cursor:pointer;margin-top:12px}
+.reset:hover{color:var(--ink)}
+
+@media (max-width:980px){
+  .rules{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .strip{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stuck{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .score{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .where{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .step,.mapcall{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .rules,.strip,.stuck,.score,.where,.goal,.two-shots,.pact,.levels{grid-template-columns:1fr}
+  .chap-head{grid-template-columns:1fr}
+  .badge{height:64px;min-width:64px;width:auto;justify-self:start;font-size:20px;white-space:nowrap}
+  .mins-bar a{font-size:11px}
+  .top img{height:22px}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+html{scroll-behavior:smooth}
+.logo-dark{display:none}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a href="../" title="Voltar ao kit de implantação"><img src="img/logo-white.png" alt="KraftSun"></a>
+    <nav class="jump" aria-label="Ir para">
+      <a href="../"><b>Kit</b>Voltar</a>
+      <a href="#antes"><b>D-1</b>Antes</a>
+      <a href="#e1"><b>D0</b>Começo</a>
+      <a href="#grupo"><b>D1-6</b>Grupo</a>
+      <a href="#e2"><b>D7</b>Raio-x</a>
+      <a href="#e3"><b>D14</b>Rotina</a>
+      <a href="#e4"><b>D30</b>Cobrar</a>
+      <a href="#e5"><b>D60</b>Se paga?</a>
+      <a href="#travar">Quando travar</a>
+      <a href="#telas">Onde fica</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="kicker">Para quem conduz a implantação</div>
+    <h1>Roteiro de implantação</h1>
+    <p class="sub">Cinco encontros por vídeo e o resto pelo grupo. Em cada encontro o integrador compartilha a tela dele e fica com o mouse; você diz onde clicar, o que falar e o que tem de sair pronto antes de desligar.</p>
+    <div class="facts">
+      <span class="fact"><b>5</b> encontros</span>
+      <span class="fact"><b>~4 h</b> de conversa no total</span>
+      <span class="fact"><b>7 dias</b> para a carteira estar vigiada</span>
+      <span class="fact"><b>60 dias</b> para o pós-venda pagar o KraftSun</span>
+      <span class="fact">Telas reais da versão <b>1.103.3</b>, com dados fictícios</span>
+    </div>
+    <div class="tl" role="list">
+      <div class="tl-track">
+        <a class="tl-node" href="#e1" role="listitem"><span class="tl-dot">D0</span><h3>Começo</h3><span class="dur">60 min</span><span class="out">Conta conectada, usinas importadas, marca e o combinado</span></a>
+        <a class="tl-node soft" href="#grupo" role="listitem"><span class="tl-dot">D1</span><h3>Pelo grupo</h3><span class="dur">D1 a D6</span><span class="out">Cadastro completo e o primeiro laudo lido</span></a>
+        <a class="tl-node" href="#e2" role="listitem"><span class="tl-dot">D7</span><h3>Raio-x</h3><span class="dur">45 min</span><span class="out">Monitoramento ligado, avisos para quem age, 3 O.S.</span></a>
+        <a class="tl-node" href="#e3" role="listitem"><span class="tl-dot">D14</span><h3>Rotina</h3><span class="dur">30 min</span><span class="out">15 minutos por dia funcionando, primeira prova</span></a>
+        <a class="tl-node" href="#e4" role="listitem"><span class="tl-dot">D30</span><h3>Cobrar</h3><span class="dur">60 min</span><span class="out">Asaas, pacotes e 5 propostas</span></a>
+        <a class="tl-node" href="#e5" role="listitem"><span class="tl-dot">D60</span><h3>Se paga?</h3><span class="dur">30 min</span><span class="out">Placar dos 5 números com os dados dele</span></a>
+        <a class="tl-node soft" href="#e5" role="listitem"><span class="tl-dot">D90</span><h3>Formatura</h3><span class="dur">no grupo</span><span class="out">Nota, indicação e o grupo vira suporte</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main>
+<!-- REGRAS -->
+<section class="chap" id="regras">
+  <div class="wrap">
+    <div class="kicker">Antes de tudo</div>
+    <h2 style="font-size:clamp(24px,3.2vw,34px);margin:6px 0 20px">As 5 regras de quem conduz</h2>
+    <div class="rules">
+      <div class="rule">
+        <svg viewBox="0 0 34 34" aria-hidden="true"><rect x="10" y="3" width="14" height="24" rx="7" fill="none" stroke="#ff7a1a" stroke-width="2.4"/><line x1="17" y1="7" x2="17" y2="12" stroke="#ff7a1a" stroke-width="2.4" stroke-linecap="round"/><path d="M8 31h18" stroke="#ff7a1a" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <h3>A mão no mouse é dele</h3><p>Ele compartilha a tela e clica. O que fez com a própria mão, repete sozinho amanhã.</p>
+      </div>
+      <div class="rule">
+        <svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="13" fill="none" stroke="#ff7a1a" stroke-width="2.4"/><path d="M11 17.5l4 4 8-9" fill="none" stroke="#ff7a1a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h3>Sem "pronto quando", não avança</h3><p>Se o resultado mínimo não saiu, marque a continuação deste encontro, não o próximo.</p>
+      </div>
+      <div class="rule">
+        <svg viewBox="0 0 34 34" aria-hidden="true"><rect x="4" y="7" width="26" height="23" rx="4" fill="none" stroke="#ff7a1a" stroke-width="2.4"/><path d="M4 14h26M11 4v6M23 4v6" stroke="#ff7a1a" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <h3>Tarefa, dono e data</h3><p>Fale em voz alta e escreva no grupo logo depois: quem faz o quê até quando.</p>
+      </div>
+      <div class="rule">
+        <svg viewBox="0 0 34 34" aria-hidden="true"><path d="M17 4l14 25H3z" fill="none" stroke="#ff7a1a" stroke-width="2.4" stroke-linejoin="round"/><path d="M17 13v7" stroke="#ff7a1a" stroke-width="2.6" stroke-linecap="round"/><circle cx="17" cy="24.5" r="1.6" fill="#ff7a1a"/></svg>
+        <h3>Primeiro a usina que dá problema</h3><p>O valor aparece quando o KraftSun explica algo que ele já sofre. Nunca comece pela usina perfeita.</p>
+      </div>
+      <div class="rule">
+        <svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="13" fill="none" stroke="#ff7a1a" stroke-width="2.4"/><path d="M17 9v8l5 3" fill="none" stroke="#ff7a1a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h3>Ensine a rotina, não o software</h3><p>Cada tela que você mostrar responde: quem abre isso, e em que horário?</p>
+      </div>
+    </div>
+    <div class="box" style="margin-top:16px">
+      <h4>O que o KraftSun já faz sozinho</h4>
+      <p>Depois do cadastro, o sistema manda lembretes de ativação pelo WhatsApp e por e-mail nos dias 0, 1, 2, 3 e 7, só se o passo do dia não foi feito. O integrador vê no topo a faixa <b>Ativação · X de 5</b>. Você acompanha o mesmo funil em <b>Admin › Contas › Ativação (funil)</b>. No grupo você faz o que o lembrete não faz: destrava, explica e cobra o combinado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ANTES -->
+<section class="chap" id="antes">
+  <div class="wrap">
+    <div class="chap-head">
+      <div class="badge">D-1<small>10 MIN</small></div>
+      <div>
+        <h2>Antes do Começo: a preparação</h2>
+        <p class="lead">Dez minutos olhando a conta dele antes da chamada, para chegar sabendo onde ele parou.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-txt">
+        <ul class="checks" data-ck="antes">
+          <li><label><input type="checkbox" id="ck-antes-1"> <span>Abrir <b>Admin › Visão do sistema</b> e clicar em <b>Ver como</b> na conta dele: plano, usinas, contas de fabricante.</span></label></li>
+          <li><label><input type="checkbox" id="ck-antes-2"> <span>Ver em <b>Ativação (funil)</b> em que passo ele parou.</span></label></li>
+          <li><label><input type="checkbox" id="ck-antes-3"> <span>Ler no CRM o que a closer prometeu, as marcas e a dor que fechou a venda.</span></label></li>
+          <li><label><input type="checkbox" id="ck-antes-4"> <span>Criar o grupo "KraftSun × [Integradora]" com ícone, descrição e boas-vindas.</span></label></li>
+          <li><label><input type="checkbox" id="ck-antes-5"> <span>Pedir no grupo os logins dos portais (de preferência a conta de instalador) e a lista de clientes com WhatsApp.</span></label></li>
+          <li><label><input type="checkbox" id="ck-antes-6"> <span>Confirmar quem participa: dono, responsável pelo pós-venda e técnico. Sem o dono, remarque.</span></label></li>
+          <li><label><input type="checkbox" id="ck-antes-7"> <span>Mandar o link do Meet. Pedir que entre pelo computador.</span></label></li>
+        </ul>
+        <button class="reset" type="button" data-reset="antes">Novo cliente: limpar todas as marcações</button>
+      </div>
+      <figure class="shot" data-k="vercomo">
+        <div class="cap">Admin › Visão do sistema</div>
+        <div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/vercomo.jpg" alt="Visão do sistema com a lista de contas e o botão Ver como" loading="lazy"></div>
+        <figcaption><ol class="legend"><li><b>1</b>Ver como: abre a conta dele como ele vê. Para sair, "voltar ao admin" no topo.</li><li><b>2</b>Contas: integradores, Ativação (funil), Lembretes e CRM.</li></ol></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- E1 -->
+<section class="chap" id="e1">
+  <div class="wrap">
+    <div class="chap-head">
+      <div class="badge">D0<small>60 MIN</small></div>
+      <div>
+        <div class="kicker">Encontro 1</div>
+        <h2>Começo: a carteira entra e a empresa assume o combinado</h2>
+        <div class="chips"><span class="chip">Dono</span><span class="chip">Responsável pelo pós-venda</span><span class="chip">Técnico</span><span class="chip or">Até 48 h depois do pagamento</span></div>
+      </div>
+    </div>
+    <div class="goal">
+      <div class="box ok"><h4>Pronto quando</h4>
+        <ul class="checks" data-ck="e1">
+          <li><label><input type="checkbox" id="ck-e1-1"> <span>Pelo menos uma conta de fabricante conectada</span></label></li>
+          <li><label><input type="checkbox" id="ck-e1-2"> <span>Usinas importadas e comparadas com o que ele instalou</span></label></li>
+          <li><label><input type="checkbox" id="ck-e1-3"> <span>Marca no laudo (logo, CNPJ, WhatsApp)</span></label></li>
+          <li><label><input type="checkbox" id="ck-e1-4"> <span>Responsável, técnico e horário dos 15 minutos ditos em voz alta</span></label></li>
+        </ul>
+      </div>
+      <div class="box stop"><h4>Não avança se</h4><p>Nenhuma conta conectou. Marque a continuação para o dia seguinte e trate a marca que travou em chamada de 15 minutos.</p></div>
+    </div>
+    <div class="mins">
+      <div class="mins-bar" role="list">
+        <a href="#e1-1" style="flex:5" role="listitem" title="0 a 5 min">1</a>
+        <a href="#e1-2" style="flex:10" role="listitem" title="5 a 15 min">2</a>
+        <a href="#e1-3" style="flex:25" role="listitem" title="15 a 40 min">3 · conectar</a>
+        <a href="#e1-4" style="flex:5" role="listitem" title="40 a 45 min">4</a>
+        <a href="#e1-5" style="flex:5" role="listitem" title="45 a 50 min">5</a>
+        <a href="#e1-6" style="flex:7" role="listitem" title="50 a 57 min">6</a>
+        <a href="#e1-7" style="flex:3" role="listitem" title="57 a 60 min">7</a>
+      </div>
+      <div class="mins-scale"><span>0 min</span><span>15</span><span>30</span><span>45</span><span>60 min</span></div>
+    </div>
+    <div class="steps">
+      <article class="step" id="e1-1">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">1</span><span class="time">0 a 5 min</span></div>
+          <h3>Abrir e combinar a regra</h3>
+          <div class="path"><span>Ele compartilha a tela</span><i>›</i><span>Início</span><i>›</i><span>Ativação</span></div>
+          <p class="say">"Hoje você fica com o mouse e eu te guio. Em 60 minutos a carteira entra no KraftSun. O que vai fazer diferença daqui para frente é a rotina de vocês, e é isso que a gente monta junto."</p>
+          <ul class="note"><li>Mostre os 5 passos da ativação: é o mapa do encontro de hoje.</li></ul>
+        </div>
+        <figure class="shot" data-k="ativacao">
+          <div class="cap">Início › Ativação</div>
+          <div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/ativacao.jpg" alt="Tela de ativação com os passos" loading="lazy"></div>
+          <figcaption><ol class="legend"><li><b>1</b>Conectar o portal da primeira marca</li><li><b>2</b>Completar o cadastro da usina (amanhã, D1)</li><li><b>3</b>Rodar o primeiro diagnóstico (D3)</li></ol></figcaption>
+        </figure>
+      </article>
+
+      <article class="step noshot" id="e1-2">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">2</span><span class="time">5 a 15 min</span></div>
+          <h3>Diagnóstico de nível: 6 perguntas, sem tela</h3>
+          <p class="say">"Responde só o que acontece hoje, não o que você pretende fazer."</p>
+          <ol class="qs">
+            <li>Você sabe dizer agora, sem ligar para ninguém, quantas usinas suas estão paradas?</li>
+            <li>Quando uma usina para, você descobre antes do cliente?</li>
+            <li>O técnico vai a campo sabendo qual é o defeito?</li>
+            <li>Pelo menos um cliente te paga todo mês pelo pós-venda?</li>
+            <li>Existe contrato escrito dizendo o que está incluso no pós-venda?</li>
+            <li>Alguém confere a conta de energia dos seus clientes?</li>
+          </ol>
+          <div class="levels">
+            <div class="lv"><b>N0 · 0 a 1 sim</b>Apaga incêndio</div>
+            <div class="lv"><b>N1 · 2 a 3</b>Reativo organizado</div>
+            <div class="lv"><b>N2 · 4</b>Monitora, não cobra</div>
+            <div class="lv"><b>N3 · 5 a 6</b>Pós-venda como produto</div>
+          </div>
+          <ul class="note"><li>Anote o nível no placar. É a linha de partida da conversa do D60.</li></ul>
+        </div>
+      </article>
+
+      <article class="step" id="e1-3">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">3</span><span class="time">15 a 40 min</span></div>
+          <h3>Conectar a conta do fabricante e importar</h3>
+          <div class="path"><span>Usinas</span><i>›</i><span>Importar do portal</span><i>›</i><span>Conectar conta</span></div>
+          <p class="say">"É o mesmo login do app do inversor. Começa pela marca que mais dá trabalho."</p>
+          <ul class="note">
+            <li>De preferência a conta de instalador, que traz todas as usinas. Uma conexão por conta.</li>
+            <li>Sungrow é por autorização no iSolarCloud, não por senha.</li>
+            <li>Para trocar senha ou reconectar, nunca exclua a conta: as usinas saem do monitoramento.</li>
+            <li>Travou 10 minutos numa marca? Passe para a próxima e trate depois.</li>
+          </ul>
+          <figure class="shot" data-k="sungrow" style="margin-top:4px">
+            <div class="cap">Usinas › Importar do portal › Sungrow</div>
+            <div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/sungrow.jpg" alt="Conectar Sungrow por autorização" loading="lazy"></div>
+            <figcaption><ol class="legend"><li><b>1</b>Autorizar no iSolarCloud: ele entra no portal da Sungrow e libera as usinas.</li></ol></figcaption>
+          </figure>
+        </div>
+        <div class="two-shots" style="grid-template-columns:1fr">
+          <figure class="shot" data-k="importar">
+            <div class="cap">Usinas › Importar do portal</div>
+            <div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/importar.jpg" alt="Tela Importar do portal com as marcas" loading="lazy"></div>
+            <figcaption><ol class="legend"><li><b>1</b>Importar do portal, no menu Usinas</li><li><b>2</b>Conectar conta, no cartão da marca</li></ol></figcaption>
+          </figure>
+          <figure class="shot" data-k="conectar">
+            <div class="cap">Formulário de uma marca (exemplo: Deye)</div>
+            <div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/conectar.jpg" alt="Formulário para conectar a conta Deye" loading="lazy"></div>
+            <figcaption><ol class="legend"><li><b>1</b>Apelido da conta (ex.: "Conta instalador")</li><li><b>2</b>Login do app do fabricante</li><li><b>3</b>Região do portal</li><li><b>4</b>Conectar e validar: o KraftSun testa na hora</li></ol></figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="step" id="e1-4">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">4</span><span class="time">40 a 45 min</span></div>
+          <h3>Comparar quantas vieram com quantas ele instalou</h3>
+          <div class="path"><span>Usinas</span><i>›</i><span>Minhas usinas</span></div>
+          <p class="say">"Quantas você instalou até hoje? Vieram 7. A diferença é carteira esquecida, e é cliente seu que ninguém está olhando."</p>
+        </div>
+        <figure class="shot" data-k="usinas">
+          <div class="cap">Usinas › Minhas usinas</div>
+          <div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/usinas.jpg" alt="Lista de usinas cadastradas" loading="lazy"></div>
+          <figcaption><ol class="legend"><li><b>1</b>Completar agora: a tarefa de amanhã (D1)</li><li><b>2</b>Busca por usina, cliente ou inversor</li><li><b>3</b>Abrir: a ficha da usina</li></ol></figcaption>
+        </figure>
+      </article>
+
+      <article class="step" id="e1-5">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">5</span><span class="time">45 a 50 min</span></div>
+          <h3>Marca no laudo</h3>
+          <div class="path"><span>Avatar no canto</span><i>›</i><span>Configurações</span><i>›</i><span>Minha marca</span></div>
+          <p class="say">"O laudo e o portal do seu cliente saem com o seu nome, não com o nosso."</p>
+        </div>
+        <figure class="shot" data-k="marca">
+          <div class="cap">Configurações › Minha marca</div>
+          <div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/marca.jpg" alt="Tela Minha marca" loading="lazy"></div>
+          <figcaption><ol class="legend"><li><b>1</b>Nome, CNPJ e WhatsApp da empresa</li><li><b>2</b>Logo (PNG com fundo transparente)</li><li><b>3</b>Prévia de como o laudo vai sair</li><li><b>4</b>Salvar marca</li></ol></figcaption>
+        </figure>
+      </article>
+
+      <article class="step noshot" id="e1-6">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">6</span><span class="time">50 a 57 min</span></div>
+          <h3>O combinado, preenchido na descrição do grupo</h3>
+          <p class="say">"Quem vai olhar o KraftSun todo dia? Em que horário? Coloca na agenda dela agora, enquanto a gente está aqui."</p>
+          <div class="pact">
+            <div><b>Responsável pelo pós-venda</b>Nome de quem abre o sistema todo dia</div>
+            <div><b>Horário fixo dos 15 minutos</b>Na agenda dela, não "quando der"</div>
+            <div><b>Técnico das O.S.</b>Quem vai a campo com o laudo</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="step noshot" id="e1-7">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">7</span><span class="time">57 a 60 min</span></div>
+          <h3>Tarefa do D1 e data do Raio-x, no grupo</h3>
+          <p class="say">"Até amanhã, [nome] liga cada usina ao cliente dono e completa cidade e kWp. Nosso Raio-x fica para [dia e hora]."</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- GRUPO -->
+<section class="chap" id="grupo">
+  <div class="wrap">
+    <div class="chap-head">
+      <div class="badge">D1-6<small>NO GRUPO</small></div>
+      <div>
+        <h2>Entre o Começo e o Raio-x: pelo grupo</h2>
+        <p class="lead">Você não faz por ele. Manda o passo, confere com o Ver como e destrava o que travou.</p>
+      </div>
+    </div>
+    <div class="strip">
+      <div class="day"><span class="d">D1</span><h3>Completar o cadastro</h3><p>Cada usina com cliente dono, cidade, kWp e tarifa. Sem kWp não há desempenho.</p>
+        <figure class="shot" data-k="completar"><div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/completar.jpg" alt="Completar cadastro das usinas" loading="lazy"></div><figcaption><ol class="legend"><li><b>1</b>Usina incompleta</li><li><b>2</b>Salvar e ir para o laudo</li></ol></figcaption></figure></div>
+      <div class="day"><span class="d">D2</span><h3>A marca que travou</h3><p>Chamada de 15 minutos na tela. Não resolveu, escale com marca, conta e print.</p>
+        <figure class="shot" data-k="importar"><div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/importar.jpg" alt="Importar do portal" loading="lazy"></div></figure></div>
+      <div class="day"><span class="d">D3</span><h3>Primeiro laudo</h3><p>Na usina com problema conhecido. Leia o laudo junto, no grupo: o que apontou e o que levar.</p>
+        <figure class="shot" data-k="diagnostico"><div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/diagnostico.jpg" alt="Novo diagnóstico" loading="lazy"></div><figcaption><ol class="legend"><li><b>1</b>Escolher a usina</li><li><b>2</b>Rodar diagnóstico</li></ol></figcaption></figure></div>
+      <div class="day"><span class="d">D4-5</span><h3>Laudo para o cliente</h3><p>Opcional: ele manda o laudo pelo WhatsApp e vê a reação do cliente. Não cobre.</p></div>
+      <div class="day"><span class="d">D6</span><h3>Prepare o Raio-x</h3><p>Ver como a conta dele: usinas com problema, as 3 críticas, quantas sem comunicação. Mande a pergunta: "algum desses clientes já reclamou?"</p>
+        <figure class="shot" data-k="painel"><div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/painel.jpg" alt="Painel do integrador" loading="lazy"></div></figure></div>
+    </div>
+  </div>
+</section>
+
+<!-- E2 -->
+<section class="chap" id="e2">
+  <div class="wrap">
+    <div class="chap-head">
+      <div class="badge">D7<small>45 MIN</small></div>
+      <div>
+        <div class="kicker">Encontro 2</div>
+        <h2>Raio-x: nenhuma usina parada sem eles saberem</h2>
+        <div class="chips"><span class="chip">Dono</span><span class="chip">Responsável pelo pós-venda</span></div>
+      </div>
+    </div>
+    <div class="goal">
+      <div class="box ok"><h4>Pronto quando</h4>
+        <ul class="checks" data-ck="e2">
+          <li><label><input type="checkbox" id="ck-e2-1"> <span>Técnico cadastrado e 3 O.S. abertas nas usinas críticas</span></label></li>
+          <li><label><input type="checkbox" id="ck-e2-2"> <span>Monitoramento ligado nas usinas do plano, com modalidade escolhida</span></label></li>
+          <li><label><input type="checkbox" id="ck-e2-3"> <span>Avisos chegando para o responsável e o técnico, não só para o dono</span></label></li>
+        </ul>
+      </div>
+      <div class="box stop"><h4>Não avança se</h4><p>Os avisos vão só para o dono, ou para ninguém. Aviso que morre no WhatsApp de quem não age é usina parada sem ninguém saber.</p></div>
+    </div>
+    <div class="mins">
+      <div class="mins-bar" role="list">
+        <a href="#e2-1" style="flex:10" role="listitem" title="0 a 10 min">1 · raio-x</a>
+        <a href="#e2-2" style="flex:5" role="listitem" title="10 a 15 min">2</a>
+        <a href="#e2-3" style="flex:7" role="listitem" title="15 a 22 min">3 · O.S.</a>
+        <a href="#e2-4" style="flex:10" role="listitem" title="22 a 32 min">4 · monitorar</a>
+        <a href="#e2-5" style="flex:8" role="listitem" title="32 a 40 min">5 · avisos</a>
+        <a href="#e2-6" style="flex:5" role="listitem" title="40 a 45 min">6</a>
+      </div>
+      <div class="mins-scale"><span>0 min</span><span>15</span><span>30</span><span>45 min</span></div>
+    </div>
+    <div class="steps">
+      <article class="step" id="e2-1">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">1</span><span class="time">0 a 10 min</span></div>
+          <h3>Mostrar a carteira como ela está</h3>
+          <div class="path"><span>Início</span><i>›</i><span>Painel</span><i>›</i><span>Pendências</span></div>
+          <p class="say">"Algum desses clientes já tinha reclamado com você?"</p>
+        </div>
+        <figure class="shot" data-k="painel">
+          <div class="cap">Início › Painel</div>
+          <div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/painel.jpg" alt="Painel do integrador" loading="lazy"></div>
+          <figcaption><ol class="legend"><li><b>1</b>Sua ativação: o que ainda falta</li><li><b>2</b>Diagnósticos, achados críticos, O.S. abertas</li><li><b>3</b>Laudos recentes</li></ol></figcaption>
+        </figure>
+      </article>
+      <article class="step" id="e2-2">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">2</span><span class="time">10 a 15 min</span></div>
+          <h3>Cadastrar o técnico</h3>
+          <div class="path"><span>Pós-venda</span><i>›</i><span>Técnicos</span></div>
+          <p class="say">"É para ele receber a O.S. já sabendo o que testar."</p>
+        </div>
+        <figure class="shot" data-k="tecnicos">
+          <div class="cap">Pós-venda › Técnicos</div>
+          <div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/tecnicos.jpg" alt="Cadastro de técnicos" loading="lazy"></div>
+          <figcaption><ol class="legend"><li><b>1</b>Novo técnico: nome, registro, telefone</li><li><b>2</b>Adicionar técnico</li></ol></figcaption>
+        </figure>
+      </article>
+      <article class="step" id="e2-3">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">3</span><span class="time">15 a 22 min</span></div>
+          <h3>Abrir 3 O.S. nas usinas mais críticas</h3>
+          <div class="path"><span>Ficha da usina</span><i>›</i><span>Nova O.S.</span></div>
+          <div class="path"><span>ou Pós-venda</span><i>›</i><span>Ordens de serviço</span><i>›</i><span>Nova O.S.</span></div>
+          <p class="say">"O técnico sai sabendo o porquê e volta com a prova. Nada de ir dar uma olhada."</p>
+        </div>
+        <figure class="shot" data-k="novaos">
+          <div class="cap">Pós-venda › Ordens de serviço › Nova O.S.</div>
+          <div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/novaos.jpg" alt="Nova ordem de serviço" loading="lazy"></div>
+          <figcaption><ol class="legend"><li><b>1</b>Usina (o problema vem do laudo)</li><li><b>2</b>Técnico responsável</li><li><b>3</b>Data prevista</li></ol></figcaption>
+        </figure>
+      </article>
+      <article class="step" id="e2-4">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">4</span><span class="time">22 a 32 min</span></div>
+          <h3>Ligar o monitoramento e escolher a modalidade</h3>
+          <div class="path"><span>Monitoramento</span><i>›</i><span>Minhas usinas monitoradas</span></div>
+          <p class="say">"Essencial lê 8 vezes por dia, na janela do sol. Tempo real lê a cada 5 minutos. Usina com falha passa sozinha para Tempo real até resolver."</p>
+          <ul class="note"><li>Usina nova vem marcada como Essencial. Tempo real é escolha dele.</li><li>Nos 3 primeiros dias o desempenho aparece como "n/d": a base está se formando.</li></ul>
+        </div>
+        <figure class="shot" data-k="monitor">
+          <div class="cap">Monitoramento › Minhas usinas monitoradas</div>
+          <div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/monitor.jpg" alt="Usinas monitoradas com as modalidades" loading="lazy"></div>
+          <figcaption><ol class="legend"><li><b>1</b>Tempo real: a cada 5 minutos</li><li><b>2</b>Essencial: 8 leituras por dia</li><li><b>3</b>Modalidade de cada usina: Desligada, Essencial ou Tempo real</li></ol></figcaption>
+        </figure>
+      </article>
+      <article class="step" id="e2-5">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">5</span><span class="time">32 a 40 min</span></div>
+          <h3>Quem recebe os avisos</h3>
+          <div class="path"><span>Monitoramento</span><i>›</i><span>Alertas e avisos</span><i>›</i><span>Quem recebe os avisos</span></div>
+          <p class="say">"Aviso tem de chegar em quem vai agir. Se chegar só em você, dono, ele morre no seu WhatsApp."</p>
+          <ul class="note"><li>Resumo da manhã às 8h com o que está pendente; resumo do dia de cada usina até as 19h.</li><li>Confira o aviso de usinas monitoradas sem ninguém para avisar.</li></ul>
+        </div>
+        <figure class="shot" data-k="alertas">
+          <div class="cap">Monitoramento › Alertas e avisos</div>
+          <div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/alertas.jpg" alt="Configuração de quem recebe os avisos" loading="lazy"></div>
+          <figcaption><ol class="legend"><li><b>1</b>Quem recebe os avisos, por tipo de alerta</li><li><b>2</b>Você e a equipe</li><li><b>3</b>O cliente final: na hora, após o laudo ou não</li><li><b>4</b>Horário silencioso</li><li><b>5</b>Por usina: quem está sem destinatário</li></ol></figcaption>
+        </figure>
+      </article>
+      <article class="step" id="e2-6">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">6</span><span class="time">40 a 45 min</span></div>
+          <h3>A Central, onde moram os 15 minutos</h3>
+          <div class="path"><span>Monitoramento</span><i>›</i><span>Central</span><i>›</i><span>Telas</span></div>
+          <p class="say">"É aqui que [responsável] abre os 15 minutos de todo dia. Amanhã às 8h chega o primeiro resumo da manhã."</p>
+          <ul class="note"><li>Tem TV na empresa? Mostre o Modo TV numa tela da Central.</li><li>Feche com o script 1.9 fixado no grupo e a data do D14.</li></ul>
+        </div>
+        <figure class="shot" data-k="central">
+          <div class="cap">Monitoramento › Central</div>
+          <div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/central.jpg" alt="Central de monitoramento" loading="lazy"></div>
+          <figcaption><ol class="legend"><li><b>1</b>Gerenciar usinas monitoradas</li><li><b>2</b>Nova tela: por região ou por cliente</li><li><b>3</b>Todas as usinas monitoradas</li></ol></figcaption>
+        </figure>
+      </article>
+    </div>
+
+    <div class="mapcall">
+      <div class="step-txt">
+        <div class="kicker" style="color:#ffad6b">No fim do Raio-x, se fizer sentido</div>
+        <h3>Mapa da usina</h3>
+        <p>A usina desenhada sobre a planta do projeto, a foto de drone ou o satélite. A string em falha acende no lugar exato e entra na O.S. do técnico. Mostre em usina grande ou com muitas strings, só depois de o monitoramento estar ligado.</p>
+        <div><span class="price">R$ 5,00</span> <span style="color:rgba(255,255,255,.8)">por usina por mês, só usinas em Tempo real. Ele escolhe em quais liga.</span></div>
+        <div class="path"><span>Configurações</span><i>›</i><span>Assinatura e pacotes</span><i>›</i><span>liberar o módulo</span></div>
+        <div class="path"><span>Ficha da usina</span><i>›</i><span>aba Mapa</span><i>›</i><span>Começar a desenhar</span></div>
+        <p style="font-size:14px">Antes de oferecer, confira no Admin se o módulo já está à venda.</p>
+      </div>
+      <figure class="shot" data-k="mapa">
+        <div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/mapa.jpg" alt="Aba Mapa na ficha da usina" loading="lazy"></div>
+        <figcaption><ol class="legend"><li><b>1</b>Aba Mapa na ficha da usina</li><li><b>2</b>Planta do projeto: a base recomendada</li><li><b>3</b>Satélite pelo endereço, quando não há planta</li><li><b>4</b>Com o mapa pronto: falha, sombra e O.S.</li></ol></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- E3 -->
+<section class="chap" id="e3">
+  <div class="wrap">
+    <div class="chap-head">
+      <div class="badge">D14<small>30 MIN</small></div>
+      <div>
+        <div class="kicker">Encontro 3</div>
+        <h2>Rotina: os 15 minutos estão acontecendo?</h2>
+        <div class="chips"><span class="chip">Responsável pelo pós-venda</span><span class="chip">Técnico</span></div>
+      </div>
+    </div>
+    <div class="goal">
+      <div class="box ok"><h4>Pronto quando</h4>
+        <ul class="checks" data-ck="e3">
+          <li><label><input type="checkbox" id="ck-e3-1"> <span>Nenhum aviso aberto há mais de 24 horas</span></label></li>
+          <li><label><input type="checkbox" id="ck-e3-2"> <span>Primeira reverificação feita e o antes e depois mandado ao cliente</span></label></li>
+        </ul>
+      </div>
+      <div class="box stop"><h4>Não avança se</h4><p>Ninguém entrou no sistema nos últimos 7 dias. Não explique o software de novo: volte ao combinado e, se preciso, peça ao dono outro responsável.</p></div>
+    </div>
+    <div class="mins">
+      <div class="mins-bar" role="list">
+        <a href="#e3-1" style="flex:3" role="listitem" title="0 a 3 min">1</a>
+        <a href="#e3-2" style="flex:10" role="listitem" title="3 a 13 min">2 · avisos</a>
+        <a href="#e3-3" style="flex:7" role="listitem" title="13 a 20 min">3 · O.S.</a>
+        <a href="#e3-4" style="flex:6" role="listitem" title="20 a 26 min">4 · prova</a>
+        <a href="#e3-5" style="flex:4" role="listitem" title="26 a 30 min">5</a>
+      </div>
+      <div class="mins-scale"><span>0 min</span><span>15</span><span>30 min</span></div>
+    </div>
+    <div class="steps">
+      <article class="step noshot" id="e3-1">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">1</span><span class="time">0 a 3 min</span></div>
+          <h3>A pergunta que abre o encontro</h3>
+          <p class="say">"Nesta semana, quem descobriu o problema primeiro: vocês ou o cliente?"</p>
+        </div>
+      </article>
+      <article class="step" id="e3-2">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">2</span><span class="time">3 a 13 min</span></div>
+          <h3>Revisar os avisos da semana, um por um</h3>
+          <div class="path"><span>Monitoramento</span><i>›</i><span>Alertas e avisos</span></div>
+          <p class="say">"Esse aqui virou o quê: descarte, ligação ou O.S.?"</p>
+          <ul class="note"><li>Todo aviso vira uma de três coisas no mesmo dia: descartar com motivo, ligar para o cliente ou abrir O.S.</li></ul>
+        </div>
+        <figure class="shot" data-k="alertaslista">
+          <div class="cap">Monitoramento › Alertas e avisos</div>
+          <div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/alertaslista.jpg" alt="Lista de alertas por estado" loading="lazy"></div>
+          <figcaption><ol class="legend"><li><b>1</b>Abertos: o que ainda não teve destino</li><li><b>2</b>Tratando: "vi, estou tratando"</li><li><b>3</b>Resolvidos</li></ol></figcaption>
+        </figure>
+      </article>
+      <article class="step noshot" id="e3-3">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">3</span><span class="time">13 a 20 min</span></div>
+          <h3>As 3 O.S. do Raio-x</h3>
+          <div class="path"><span>Pós-venda</span><i>›</i><span>Ordens de serviço</span></div>
+          <p class="say">"O técnico foi? O que ele encontrou bateu com o laudo?"</p>
+        </div>
+      </article>
+      <article class="step noshot" id="e3-4">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">4</span><span class="time">20 a 26 min</span></div>
+          <h3>A primeira reverificação, a prova</h3>
+          <div class="path"><span>Laudo da usina</span><i>›</i><span>Reverificar</span></div>
+          <div class="path"><span>Diagnóstico</span><i>›</i><span>Correções</span></div>
+          <p class="say">"Isso é a prova. Manda hoje para o cliente, com a sua marca. Nenhum concorrente seu entrega isso."</p>
+        </div>
+      </article>
+      <article class="step noshot" id="e3-5">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">5</span><span class="time">26 a 30 min</span></div>
+          <h3>Ajustar quem recebe e confirmar o horário</h3>
+          <div class="path"><span>Monitoramento</span><i>›</i><span>Alertas e avisos</span><i>›</i><span>Quem recebe os avisos</span></div>
+          <p class="say">"O horário dos 15 minutos ficou? Se não ficou, qual horário fica de verdade?"</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- E4 -->
+<section class="chap" id="e4">
+  <div class="wrap">
+    <div class="chap-head">
+      <div class="badge">D30<small>60 MIN</small></div>
+      <div>
+        <div class="kicker">Encontro 4</div>
+        <h2>Cobrar: o primeiro dinheiro do pós-venda</h2>
+        <div class="chips"><span class="chip or">O dono tem de estar: preço é decisão dele</span><span class="chip">Responsável pelo pós-venda</span></div>
+      </div>
+    </div>
+    <div class="goal">
+      <div class="box ok"><h4>Pronto quando</h4>
+        <ul class="checks" data-ck="e4">
+          <li><label><input type="checkbox" id="ck-e4-1"> <span>Asaas dele conectado</span></label></li>
+          <li><label><input type="checkbox" id="ck-e4-2"> <span>De 1 a 3 pacotes criados, com preço</span></label></li>
+          <li><label><input type="checkbox" id="ck-e4-3"> <span>5 clientes escolhidos e a mensagem ensaiada</span></label></li>
+        </ul>
+      </div>
+      <div class="box stop"><h4>Não avança se</h4><p>O dono não está. Remarque: sem ele, preço não se decide e as propostas não saem.</p></div>
+    </div>
+    <div class="mins">
+      <div class="mins-bar" role="list">
+        <a href="#e4-1" style="flex:10" role="listitem" title="0 a 10 min">1 · Asaas</a>
+        <a href="#e4-2" style="flex:20" role="listitem" title="10 a 30 min">2 · pacotes</a>
+        <a href="#e4-3" style="flex:15" role="listitem" title="30 a 45 min">3 · 5 clientes</a>
+        <a href="#e4-4" style="flex:7" role="listitem" title="45 a 52 min">4</a>
+        <a href="#e4-5" style="flex:5" role="listitem" title="52 a 57 min">5</a>
+        <a href="#e4-6" style="flex:3" role="listitem" title="57 a 60 min">6</a>
+      </div>
+      <div class="mins-scale"><span>0 min</span><span>15</span><span>30</span><span>45</span><span>60 min</span></div>
+    </div>
+    <div class="steps">
+      <article class="step" id="e4-1">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">1</span><span class="time">0 a 10 min</span></div>
+          <h3>Conectar o Asaas dele</h3>
+          <div class="path"><span>Financeiro</span><i>›</i><span>Conectar Asaas</span></div>
+          <p class="say">"A partir daqui o sistema cobra e lembra o seu cliente. O dinheiro cai na sua conta, não na nossa."</p>
+          <ul class="note"><li>Peça antes, no grupo, a chave de API da conta Asaas dele.</li></ul>
+        </div>
+        <figure class="shot" data-k="asaas">
+          <div class="cap">Financeiro › Conectar Asaas</div>
+          <div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/asaas.jpg" alt="Conectar Asaas" loading="lazy"></div>
+          <figcaption><ol class="legend"><li><b>1</b>Chave de API do Asaas e o ambiente</li><li><b>2</b>Webhook para copiar no Asaas</li><li><b>3</b>Lembretes automáticos, multa e juros</li></ol></figcaption>
+        </figure>
+      </article>
+      <article class="step" id="e4-2">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">2</span><span class="time">10 a 30 min</span></div>
+          <h3>Montar de 1 a 3 pacotes</h3>
+          <div class="path"><span>Financeiro</span><i>›</i><span>Planos e preços</span></div>
+          <p class="say">"Comece simples: acompanhamento com monitoramento 24h, aviso no WhatsApp, portal e relatório mensal."</p>
+          <ul class="note"><li>Referência: R$ 15 a 30 por usina residencial, ajustada à região dele.</li><li>Com R$ 30 por usina, 12 contratos pagam o plano Integrador.</li></ul>
+        </div>
+        <figure class="shot" data-k="planos">
+          <div class="cap">Financeiro › Planos e preços</div>
+          <div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/planos.jpg" alt="Planos e preços do integrador" loading="lazy"></div>
+          <figcaption><ol class="legend"><li><b>1</b>Tabela de preços dos serviços</li><li><b>2</b>Novo pacote</li></ol></figcaption>
+        </figure>
+      </article>
+      <article class="step" id="e4-3">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">3</span><span class="time">30 a 45 min</span></div>
+          <h3>Escolher os 5 primeiros clientes</h3>
+          <div class="path"><span>Pós-venda</span><i>›</i><span>Clientes</span><i>›</i><span>Sem plano</span><i>›</i><span>propor plano</span></div>
+          <p class="say">"Qual cliente te agradeceria por ter sido avisado antes? Esse é o primeiro."</p>
+          <ul class="note"><li>Comece por quem teve aviso resolvido no D7 e no D14.</li></ul>
+        </div>
+        <figure class="shot" data-k="clientes">
+          <div class="cap">Pós-venda › Clientes</div>
+          <div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/clientes.jpg" alt="Lista de clientes do pós-venda" loading="lazy"></div>
+          <figcaption><ol class="legend"><li><b>1</b>Sem plano: a lista de venda</li><li><b>2</b>propor plano, já preenchido com o cliente</li></ol></figcaption>
+        </figure>
+      </article>
+      <article class="step noshot" id="e4-4">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">4</span><span class="time">45 a 52 min</span></div>
+          <h3>Ensaiar a mensagem em voz alta</h3>
+          <p class="say">"Oi, [cliente]. Aqui é [você], da [Integradora]. Na semana passada o sistema avisou que [o problema] na sua usina e a gente resolveu no dia [data]. Dá para deixar isso fixo: acompanhamento 24h, aviso no WhatsApp, relatório todo mês e acesso ao portal com a sua conta de luz. Fica R$ [valor] por mês. Posso ativar?"</p>
+          <ul class="note"><li>"Fala como você falaria com ele, não como está escrito aqui."</li></ul>
+        </div>
+      </article>
+      <article class="step" id="e4-5">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">5</span><span class="time">52 a 57 min</span></div>
+          <h3>Portal do cliente e o convite</h3>
+          <div class="path"><span>Pós-venda</span><i>›</i><span>Portal do cliente</span></div>
+          <p class="say">"Quem tem contrato recebe o convite. O portal com a sua marca é parte do que ele paga."</p>
+        </div>
+        <figure class="shot" data-k="portal">
+          <div class="cap">Pós-venda › Portal do cliente</div>
+          <div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/portal.jpg" alt="Portal do cliente" loading="lazy"></div>
+          <figcaption><ol class="legend"><li><b>1</b>Endereço e marca do portal</li><li><b>2</b>Convidar o cliente pelo WhatsApp</li></ol></figcaption>
+        </figure>
+      </article>
+      <article class="step noshot" id="e4-6">
+        <div class="step-txt">
+          <div class="step-top"><span class="num">6</span><span class="time">57 a 60 min</span></div>
+          <h3>Meta e data</h3>
+          <p class="say">"5 propostas enviadas em até 7 dias. Dia [data] eu pergunto aqui quantas responderam."</p>
+          <ul class="note"><li>No D37, se nenhuma saiu, o problema não é o texto: ninguém na empresa é dono dessa tarefa. Volte ao combinado.</li></ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- E5 -->
+<section class="chap" id="e5">
+  <div class="wrap">
+    <div class="chap-head">
+      <div class="badge">D60<small>30 MIN</small></div>
+      <div>
+        <div class="kicker">Encontro 5 e formatura</div>
+        <h2>Se paga? Fechar a conta com os números dele</h2>
+        <p class="lead">Preencham juntos os 5 números e respondam a pergunta: o pós-venda já paga o KraftSun?</p>
+      </div>
+    </div>
+    <div class="score">
+      <div><b>1</b><span>% da carteira dentro do KraftSun</span></div>
+      <div><b>2</b><span>% da carteira monitorada</span></div>
+      <div><b>3</b><span>Horas entre o aviso e a ação</span></div>
+      <div><b>4</b><span>% de clientes com contrato de pós-venda</span></div>
+      <div><b>5</b><span>Receita do pós-venda contra a mensalidade do KraftSun</span></div>
+    </div>
+    <div class="step" style="margin-top:18px">
+      <div class="step-txt">
+        <h3>Plano dos próximos 60 dias</h3>
+        <div class="path"><span>Pós-venda</span><i>›</i><span>Clientes</span><i>›</i><span>ficha do cliente</span></div>
+        <div class="path"><span>Contas de energia</span><i>›</i><span>Auditar agora</span></div>
+        <p class="say">"O que você deixou de fazer desde que o KraftSun passou a vigiar a carteira? E qual cliente está mais perto de ampliar?"</p>
+        <ul class="note"><li>Consumo subindo, crédito caindo e usina saudável é conversa de ampliação, não de defeito.</li></ul>
+      </div>
+      <figure class="shot" data-k="fichacliente">
+        <div class="cap">Pós-venda › Clientes › ficha</div>
+        <div class="frame" tabindex="0" role="button" aria-label="Ampliar a tela"><img src="img/fichacliente.jpg" alt="Ficha do cliente com o que vender a seguir" loading="lazy"></div>
+        <figcaption><ol class="legend"><li><b>1</b>O que vender a seguir</li><li><b>2</b>Propor um plano de acompanhamento</li></ol></figcaption>
+      </figure>
+    </div>
+    <h3 style="font-size:18px;margin:26px 0 12px">Se a conta não fechou, ache onde travou</h3>
+    <div class="where">
+      <div><i>Encontro 1 e D1</i><b>Carteira incompleta</b>Voltar à importação e ao Completar cadastro.</div>
+      <div><i>Encontros 2 e 3</i><b>Avisos sem ação</b>Rever quem recebe e o horário; trocar o responsável se preciso.</div>
+      <div><i>Encontro 2</i><b>Técnico ainda vai "para ver"</b>Toda O.S. nasce do laudo. Nenhuma visita sem O.S.</div>
+      <div><i>Encontro 4</i><b>Poucas propostas</b>Propor primeiro a quem teve aviso resolvido; o dono define quem envia.</div>
+    </div>
+    <div class="box" style="margin-top:18px">
+      <h4>D90 · Formatura, pelo grupo</h4>
+      <p>Nota de 0 a 10 e o que falta para 10; pedido de indicação; com nota 9 ou 10, pedido de depoimento de 30 segundos (script 3.5). Daí em diante o grupo vira canal de suporte e o placar do mês sai até o dia 5 (script 3.6).</p>
+    </div>
+  </div>
+</section>
+
+<!-- TRAVAR -->
+<section class="chap" id="travar">
+  <div class="wrap">
+    <div class="kicker">Regra: 15 minutos com ele na tela. Não resolveu, escale com conta, marca, usina, print e horário.</div>
+    <h2 style="font-size:clamp(24px,3.2vw,34px);margin:6px 0 20px">Quando travar</h2>
+    <div class="stuck">
+      <div class="card"><span class="tag t-con">Conexão</span><h3>A conta do fabricante não conecta</h3><p>Login de cliente em vez de instalador, região do portal ou autorização pendente.</p><p class="do">Teste o login no app do fabricante, no celular dele, na hora. Entra lá e o KraftSun recusa? Escale. "Recusado por permissão" não é senha errada.</p></div>
+      <div class="card"><span class="tag t-con">Conexão</span><h3>Vieram menos usinas do que ele instalou</h3><p>Usinas em outras contas, de clientes ou de outro instalador.</p><p class="do">Conecte as outras contas, uma por vez. Anote no placar a diferença que sobrar.</p></div>
+      <div class="card"><span class="tag t-con">Conexão</span><h3>Quer "reconectar do zero"</h3><p>A senha mudou no portal do fabricante.</p><p class="do">Atualize a conta existente. Nunca exclua: as usinas saem do monitoramento.</p></div>
+      <div class="card"><span class="tag t-mon">Monitoramento</span><h3>Desempenho em "n/d"</h3><p>Primeiros 3 dias, ou usina sem kWp e cidade.</p><p class="do">Espere a base se formar e complete o cadastro em Usinas › Minhas usinas.</p></div>
+      <div class="card"><span class="tag t-mon">Monitoramento</span><h3>Os avisos não chegam</h3><p>Ninguém cadastrado na usina, número com DDD errado ou horário silencioso.</p><p class="do">Alertas e avisos › Quem recebe os avisos. Confira o número e mande um teste.</p></div>
+      <div class="card"><span class="tag t-mon">Monitoramento</span><h3>Usina sem leitura há horas</h3><p>Quase sempre é campo: Wi-Fi ou datalogger do cliente offline.</p><p class="do">É aviso para ele ligar para o cliente. Todas as usinas da mesma marca caíram juntas? Aí escale.</p></div>
+      <div class="card"><span class="tag t-mon">Monitoramento</span><h3>Laudo demorando ou número absurdo</h3><p>Laudo com muitos achados leva alguns minutos; dado fora do padrão vem do fabricante.</p><p class="do">Espere até 10 minutos. Passou disso, ou o número não faz sentido, print e escale.</p></div>
+      <div class="card"><span class="tag t-rot">Rotina</span><h3>Ninguém entra há 7 dias</h3><p>A rotina não pegou ou o responsável saiu.</p><p class="do">Script 4.4 no grupo. Sem resposta em 48 horas, um sócio liga.</p></div>
+      <div class="card"><span class="tag t-com">Comercial</span><h3>Pagamento falhou ou quer cancelar</h3><p>Cartão recusado, boleto vencido, ou tempo, resultado, preço.</p><p class="do">Scripts 4.3 e 4.6. Cancelamento: um sócio liga no mesmo dia. Nunca desconto por mensagem.</p></div>
+    </div>
+    <div class="never">
+      <h3>O que nunca prometer na implantação</h3>
+      <ul>
+        <li>Ajuste do inversor à distância. O KraftSun lê e diagnostica; a correção é em campo.</li>
+        <li>Economia sem os números do próprio integrador. "Grátis" (o termo é cortesia). "Em segundos" (o laudo leva minutos).</li>
+        <li>Data de função nova, ou causa que ninguém mediu.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TELAS -->
+<section class="chap" id="telas">
+  <div class="wrap">
+    <div class="kicker">Para ensinar</div>
+    <h2 style="font-size:clamp(24px,3.2vw,34px);margin:6px 0 8px">Onde fica cada coisa no KraftSun</h2>
+    <p class="muted" style="margin-bottom:18px">A barra do topo, menu por menu, com o encontro em que cada item entra. Configurações fica no avatar; o ícone do livro abre o Guia de uso e o da câmera liga o Modo gravação.</p>
+    <div class="menubar">
+      <div class="menu-grid">
+        <div class="menu-col"><h3>Início</h3><ul><li class="hot">Painel <em>D7</em></li><li class="hot">Pendências <em>D7</em></li><li class="hot">Ativação <em>D0</em></li></ul></div>
+        <div class="menu-col"><h3>Usinas</h3><ul><li class="hot">Minhas usinas <em>D0 D1</em></li><li class="hot">Importar do portal <em>D0</em></li><li>Ficha da usina <em>D7</em></li></ul></div>
+        <div class="menu-col"><h3>Diagnóstico</h3><ul><li class="hot">Diagnósticos <em>D3</em></li><li class="hot">Laudos <em>D3</em></li><li class="hot">Correções <em>D14</em></li><li>Guia de falhas</li></ul></div>
+        <div class="menu-col"><h3>Monitoramento</h3><ul><li class="hot">Central <em>D7</em></li><li class="hot">Minhas usinas monitoradas <em>D7</em></li><li class="hot">Alertas e avisos <em>D7 D14</em></li><li>Comparativo</li><li>Telas</li><li>Relatórios</li></ul></div>
+        <div class="menu-col"><h3>Pós-venda</h3><ul><li class="hot">Clientes <em>D30</em></li><li class="hot">Portal do cliente <em>D30</em></li><li class="hot">Ordens de serviço <em>D7</em></li><li>Manutenção preventiva</li><li>Contratos</li><li>Checklists</li><li class="hot">Técnicos <em>D7</em></li><li>Pedidos do cliente</li></ul></div>
+        <div class="menu-col"><h3>Contas de energia</h3><ul><li>Visão geral</li><li class="hot">Auditar agora <em>D60</em></li><li>Faturas auditadas</li><li>UCs e rateio</li><li>Conexões com distribuidoras</li><li>Recebimento automático</li></ul></div>
+        <div class="menu-col"><h3>Financeiro</h3><ul><li>Painel</li><li class="hot">Planos e preços <em>D30</em></li><li>Cobranças</li><li class="hot">Conectar Asaas <em>D30</em></li></ul></div>
+        <div class="menu-col"><h3>Configurações</h3><ul><li>Meu perfil</li><li class="hot">Minha marca <em>D0</em></li><li>Meu WhatsApp</li><li>Minha equipe</li><li class="hot">Assinatura e pacotes <em>Mapa</em></li></ul></div>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:12px;font-size:14px">Ficha da usina: Visão, Inversores, Mapa (com o módulo liberado), Diagnósticos e laudos, Monitoramento, Histórico, Contas de energia, O.S. e manutenção, Cliente e portal.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">Roteiro de implantação KraftSun · telas da versão 1.103.3 com dados fictícios (Solar Exemplo Energia) · os scripts citados pelo número estão no <a href="../playbook/">Playbook de Sucesso do Cliente</a>. Versão em texto: <a href="../roteiro/">Roteiro para quem conduz</a>.</div>
+</footer>
+
+<div class="lb" id="lb" hidden><button type="button" id="lb-x">Fechar</button><div id="lb-slot"></div></div>
+
+<script>
+const MARKS={"ativacao":[[1,17.57,33.49,64.69,2.26],[2,17.57,50.07,64.69,2.26],[3,17.57,77.8,64.69,2.26]],"importar":[[1,12.3,6.56,9.06,3.2],[2,5.49,40.9,27.73,3.11]],"conectar":[[1,14.79,30.51,41.81,1.94],[2,14.79,38.56,41.81,1.93],[3,14.79,70.73,41.81,1.93],[4,14.79,79.22,41.81,3.78]],"sungrow":[[1,14.79,41.08,41.81,3.78]],"usinas":[[1,56.43,29.12,14.49,1.78],[2,5.76,39.54,66.4,4.67],[3,76.66,51.24,4.69,2.67]],"completar":[[1,5.35,40.18,4.36,3.87],[2,82.67,17.68,12.88,3.78]],"marca":[[1,4.51,27.9,44.86,3.97],[2,4.51,71.24,44.86,3.97],[3,50.62,27.9,44.86,3.97],[4,4.44,90.53,45.0,3.78]],"diagnostico":[[1,5.76,33.43,28.4,1.93],[2,5.76,49.97,28.4,3.78]],"painel":[[1,5.76,25.36,6.31,2.42],[2,5.49,70.1,12.41,1.85],[3,5.76,84.61,8.14,2.42]],"tecnicos":[[1,4.51,40.32,30.9,3.97],[2,5.76,78.46,28.4,3.78]],"novaos":[[1,14.79,34.16,41.81,1.93],[2,14.79,50.92,41.81,2.55],[3,14.79,74.99,41.81,6.88]],"monitor":[[1,35.41,25.68,5.1,2.0],[2,27.18,23.42,4.3,2.0],[3,69.2,65.24,26.29,5.13]],"alertas":[[1,5.76,37.68,29.73,2.42],[2,24.06,43.81,14.56,3.33],[3,39.46,43.81,17.75,3.33],[4,5.76,78.01,6.79,1.93],[5,60.82,37.68,9.79,2.42]],"alertaslista":[[1,4.44,40.45,5.42,2.44],[2,9.86,40.45,5.76,2.44],[3,15.62,40.45,6.42,2.44]],"central":[[1,45.47,21.79,15.03,3.78],[2,13.36,37.79,4.23,2.26],[3,5.76,85.72,14.27,2.42]],"mapa":[[1,14.92,28.84,7.29,4.18],[2,6.81,58.81,7.07,4.51],[3,40.4,58.81,14.02,2.26],[4,74.76,65.27,20.72,3.97]],"asaas":[[1,5.76,56.01,28.4,1.93],[2,37.91,40.93,4.67,2.42],[3,5.76,87.67,7.24,4.83]],"planos":[[1,5.76,29.45,14.09,2.42],[2,5.97,94.51,16.67,2.42]],"clientes":[[1,36.13,29.64,12.41,1.85],[2,81.03,60.3,7.62,2.67]],"portal":[[1,4.51,42.27,34.48,3.97],[2,78.61,53.01,6.05,2.67]],"fichacliente":[[1,66.83,64.42,10.65,2.42],[2,69.47,71.66,20.91,2.26]],"assinatura":[[1,5.76,29.47,14.83,2.42],[2,6.67,43.93,7.92,4.03]],"vercomo":[[1,76.91,84.89,6.37,2.67],[2,16.91,1.19,4.38,3.51]]};
+
+function paint(frame,key){
+  const ms=MARKS[key]||[];
+  const hasLegend=frame.closest('figure')&&frame.closest('figure').querySelector('.legend');
+  if(!hasLegend) return;
+  const want=[...frame.closest('figure').querySelectorAll('.legend li b')].map(b=>+b.textContent);
+  ms.forEach(([n,x,y,w,h])=>{
+    if(want.length && !want.includes(n)) return;
+    const box=document.createElement('span'); box.className='mk-box';
+    box.style.left=(x-0.4)+'%'; box.style.top=(y-0.6)+'%'; box.style.width=(w+0.8)+'%'; box.style.height=(h+1.2)+'%';
+    const dot=document.createElement('span'); dot.className='mk-dot'; dot.textContent=n;
+    dot.style.left=x+'%'; dot.style.top=(y+h/2)+'%';
+    frame.appendChild(box); frame.appendChild(dot);
+  });
+}
+document.querySelectorAll('figure.shot').forEach(f=>{const fr=f.querySelector('.frame'); if(fr) paint(fr,f.dataset.k);});
+
+// ampliar
+const lb=document.getElementById('lb'), slot=document.getElementById('lb-slot');
+function abrir(fr){ slot.innerHTML=''; const c=fr.cloneNode(true); c.removeAttribute('tabindex'); c.removeAttribute('role'); slot.appendChild(c); lb.hidden=false; document.getElementById('lb-x').focus(); }
+function fechar(){ lb.hidden=true; slot.innerHTML=''; }
+document.querySelectorAll('figure.shot .frame').forEach(fr=>{
+  fr.addEventListener('click',()=>abrir(fr));
+  fr.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); abrir(fr);} });
+});
+lb.addEventListener('click',e=>{ if(e.target===lb||e.target.closest('#lb-slot')) fechar(); });
+document.getElementById('lb-x').addEventListener('click',fechar);
+document.addEventListener('keydown',e=>{ if(e.key==='Escape' && !lb.hidden) fechar(); });
+
+// marcações (só neste navegador)
+const KEY='ks-roteiro-checks';
+let st={}; try{ st=JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){ st={}; }
+document.querySelectorAll('.checks input[type=checkbox]').forEach(cb=>{
+  if(st[cb.id]) cb.checked=true;
+  cb.addEventListener('change',()=>{ st[cb.id]=cb.checked; try{ localStorage.setItem(KEY,JSON.stringify(st)); }catch(e){} });
+});
+document.querySelectorAll('[data-reset]').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.checks input[type=checkbox]').forEach(cb=>{ cb.checked=false; st[cb.id]=false; });
+  try{ localStorage.setItem(KEY,JSON.stringify(st)); }catch(e){}
+}));
+</script>
+
+</body>
+</html>
