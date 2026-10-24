@@ -13,7 +13,7 @@
 - **Planos novos**: Técnico R$ 189 (50 usinas, 8 diagnósticos), Integrador R$ 449 (125 usinas, 20 diagnósticos), O&M R$ 989 (300 usinas, 45 diagnósticos), auditoria das contas em todas as usinas (até 5 contas cada), anual com 12 meses pelo preço de 10, excedentes na mesma fatura e sob medida acima de 300 usinas. Lead com proposta antiga mantém a condição dela (campo na Ficha).
 - O lead responde **na tela**: carteira, marcas, o que já aconteceu, o custo de hoje, o achado do laudo, quantos clientes pagariam o acompanhamento e a nota de 0 a 10.
 - **Janela do condutor**: falas de cada tela, objeções, cronômetro por bloco e o **resumo pronto para colar no CRM**.
-- `apresentacao/guia/` (Guia do Consultor) não mudou e ainda tem os preços antigos.
+- `apresentacao/guia/` (Guia do Consultor): preços atualizados em 24/10/2026 para os planos v2 (Técnico R$ 189, Integrador R$ 449, O&M R$ 989), com franquias, excedentes na fatura, anual 12 pelo preço de 10 e contas de contratos refeitas.
 
 ## O que tem no pacote
 - `apresentacao/index.html`: a demo, num arquivo único (imagens dentro; fontes do Google Fonts).
